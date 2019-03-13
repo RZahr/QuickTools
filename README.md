@@ -201,3 +201,5 @@ Example use:
 [QuickLogWriter]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickLogWriter.kt
 
 [QuickInternetCheckService]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickInternetCheckService.kt
+
+[QuickTrafficCalculator]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickTrafficCalculator.kt
