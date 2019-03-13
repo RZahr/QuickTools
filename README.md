@@ -32,7 +32,7 @@ Packages
  
 ## **[QuickTrafficCalculator]** ## 
 
-Used to calculate the internet consumption of the application
+Used to calculate the internet consumption of the application in a month. The Consumption is automatically reset every 30 days
 
  **```check```**: call the following function from the MainActivity
  
