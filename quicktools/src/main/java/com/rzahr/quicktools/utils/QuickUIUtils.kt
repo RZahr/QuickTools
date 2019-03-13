@@ -91,14 +91,13 @@ object QuickUIUtils {
      * sets a badge number on drawable
      * @param icon: the icon layer drawable
      * @param count: the count
-     * @param badgeId: the badge drawable layer id
+     * @param reuse: the drawable
      * @param backgroundColor: the backgroundColor color
      * @param textColor: the text color
      * @param textSize: the text size
      */
-    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, badgeId: Int, backgroundColor: Int, textColor: Int = R.color.white, textSize: Int = 14) {
+    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Int = 14, setDrawableByLayerId: (icon: LayerDrawable) -> Unit) {
 
-        val reuse: Drawable? = icon.findDrawableByLayerId(badgeId)
         val badge = if (reuse != null && reuse is BadgeDrawable) {
             reuse.invalidateSelf()
             (reuse as BadgeDrawable?)!!
@@ -108,7 +107,7 @@ object QuickUIUtils {
         else badge.setCount(count.toString() + "")
 
         icon.mutate()
-        icon.setDrawableByLayerId(badgeId, badge)
+        setDrawableByLayerId(icon)
     }
 
     @SuppressLint("InflateParams")
