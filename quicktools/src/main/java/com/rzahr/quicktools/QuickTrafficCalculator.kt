@@ -15,14 +15,14 @@ import java.util.concurrent.TimeUnit
 
 object QuickTrafficCalculator {
 
-    const val LAST_SAVED_TIME_BOOTED_KEY = "LastSavedTimeBooted"
-    const val LAST_CURRENT_SAVED_UPLOAD_TRAFFIC_KEY = "LastCurrentSavedUploadTraffic"
-    const val LAST_CURRENT_SAVED_DOWNLOAD_TRAFFIC_KEY = "LastCurrentSavedDownloadTraffic"
-    const val TOTAL_SAVED_DOWNLOAD_TRAFFIC_KEY = "TotalSavedDownloadTraffic"
-    const val TOTAL_SAVED_UPLOAD_TRAFFIC_KEY = "TotalSavedUploadTraffic"
-    const val START_DATE_DATA_CONSUMPTION_KEY = "DTEMnthlyUsge"
-    const val DURATION_APP_OFF_KEY = "TimeAppOff"
-    const val DURATION_APP_ON_KEY = "TimeAppOn"
+    const val LAST_SAVED_TIME_BOOTED_KEY = "com.rzahr.quicktools.LastSavedTimeBooted"
+    const val LAST_CURRENT_SAVED_UPLOAD_TRAFFIC_KEY = "com.rzahr.quicktools.LastCurrentSavedUploadTraffic"
+    const val LAST_CURRENT_SAVED_DOWNLOAD_TRAFFIC_KEY = "com.rzahr.quicktools.LastCurrentSavedDownloadTraffic"
+    const val TOTAL_SAVED_DOWNLOAD_TRAFFIC_KEY = "com.rzahr.quicktools.TotalSavedDownloadTraffic"
+    const val TOTAL_SAVED_UPLOAD_TRAFFIC_KEY = "com.rzahr.quicktools.TotalSavedUploadTraffic"
+    const val START_DATE_DATA_CONSUMPTION_KEY = "com.rzahr.quicktools.DTEMnthlyUsge"
+    const val DURATION_APP_OFF_KEY = "com.rzahr.quicktools.TimeAppOff"
+    const val DURATION_APP_ON_KEY = "com.rzahr.quicktools.TimeAppOn"
 
     fun check(context: Context) {
 
