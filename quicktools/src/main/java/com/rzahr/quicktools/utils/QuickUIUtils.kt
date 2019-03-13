@@ -9,6 +9,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.text.Spanned
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
+import com.rzahr.quicktools.BadgeDrawable
+import com.rzahr.quicktools.QuickInjectable
 import com.rzahr.quicktools.QuickNotificationUtils
 import com.rzahr.quicktools.R
 import com.rzahr.quicktools.extensions.openTopActivityOnClick
@@ -82,6 +85,30 @@ object QuickUIUtils {
         notificationCompatBuilder.openTopActivityOnClick(context, defaultActivity)
         notificationCompatBuilder.setSoundAndVibrate()
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(key.hashCode(), notificationCompatBuilder.build())
+    }
+
+    /**
+     * sets a badge number on drawable
+     * @param icon: the icon layer drawable
+     * @param count: the count
+     * @param badgeId: the badge drawable layer id
+     * @param backgroundColor: the backgroundColor color
+     * @param textColor: the text color
+     * @param textSize: the text size
+     */
+    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, badgeId: Int, backgroundColor: Int, textColor: Int = R.color.white, textSize: Int = 14) {
+
+        val reuse: Drawable? = icon.findDrawableByLayerId(badgeId)
+        val badge = if (reuse != null && reuse is BadgeDrawable) {
+            reuse.invalidateSelf()
+            (reuse as BadgeDrawable?)!!
+        } else BadgeDrawable(QuickInjectable.applicationContext(), backgroundColor, textColor, textSize)
+
+        if (count > 99) badge.setCount("99+")
+        else badge.setCount(count.toString() + "")
+
+        icon.mutate()
+        icon.setDrawableByLayerId(badgeId, badge)
     }
 
     @SuppressLint("InflateParams")

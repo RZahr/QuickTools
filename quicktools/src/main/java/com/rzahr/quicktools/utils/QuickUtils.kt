@@ -2,6 +2,7 @@
 
 package com.rzahr.quicktools.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
@@ -9,6 +10,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.Html
 import android.text.Spanned
 import android.widget.Toast
@@ -49,6 +52,21 @@ object QuickUtils {
         value = value.replace("^", "")
 
         return value
+    }
+
+    /**
+     * vibrates the device
+     * @param milliseconds: the duration of the vibration
+     * @param amplitude: the amplitude
+     */
+    fun vibrateDevice(milliseconds: Long = 200, @SuppressLint("InlinedApi") amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
+
+        val vibrator = QuickInjectable.applicationContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, amplitude))
+
+        else vibrator.vibrate(milliseconds)
     }
 
     /**
