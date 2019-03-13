@@ -94,17 +94,20 @@ class QuickInternetCheckService : Service() {
                 }, {})
             }
 
-            return null
+            return mConnectionCheckerServiceConnection
         }
 
         @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-        fun bindToConnectionCheckerService(mConnectionCheckerServiceConnection: ServiceConnection?, mContext: Context) {
+        fun bindToConnectionCheckerService(mConnectionCheckerServiceConnection: ServiceConnection?, mContext: Context): ServiceConnection? {
 
-            initQuickInternetCheckServiceConnection(mConnectionCheckerServiceConnection)
+            val mConnectionCheckerServiceConnectionTemp = initQuickInternetCheckServiceConnection(mConnectionCheckerServiceConnection)
+
             // Bind to LocalService
-            mConnectionCheckerServiceConnection?.let {Intent(mContext, QuickInternetCheckService::class.java).also { intent ->
+            mConnectionCheckerServiceConnectionTemp?.let {Intent(mContext, QuickInternetCheckService::class.java).also { intent ->
                 mContext.bindService(intent,it, Context.BIND_AUTO_CREATE)
             }}
+
+            return mConnectionCheckerServiceConnectionTemp
         }
 
         fun unBindToConnectionCheckerService(mConnectionCheckerServiceConnection: ServiceConnection?, mActivity: Context){
