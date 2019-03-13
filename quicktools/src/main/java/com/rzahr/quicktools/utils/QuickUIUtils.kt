@@ -96,19 +96,21 @@ object QuickUIUtils {
      * @param textColor: the text color
      * @param textSize: the text size
      */
-    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Int = 14,
-                           setDrawableByLayerId: (icon: LayerDrawable, badge: Drawable) -> Unit) {
+    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Float = 14f,
+                           badgeDrawable: Int ,setDrawableByLayerId: (icon: LayerDrawable, badge: Drawable) -> Unit) {
 
         val badge = if (reuse != null && reuse is QuickBadgeDrawable) {
             reuse.invalidateSelf()
             (reuse as QuickBadgeDrawable?)!!
-        } else QuickBadgeDrawable(QuickInjectable.applicationContext(), backgroundColor, textColor, textSize)
+        } else QuickBadgeDrawable(backgroundColor, textColor, textSize)
 
         if (count > 99) badge.setCount("99+")
         else badge.setCount(count.toString() + "")
 
         icon.mutate()
-        setDrawableByLayerId(icon, badge)
+        icon.setDrawableByLayerId(badgeDrawable, badge)
+
+        //setDrawableByLayerId(icon, badge)
     }
 
     @SuppressLint("InflateParams")

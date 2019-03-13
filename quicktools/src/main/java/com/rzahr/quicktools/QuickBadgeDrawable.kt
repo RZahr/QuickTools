@@ -1,11 +1,9 @@
 package com.rzahr.quicktools
 
-import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 
-class QuickBadgeDrawable constructor(context: Context, backgroundColor: Int, textColor: Int = R.color.white, textSize: Int = 14): Drawable() {
+class QuickBadgeDrawable constructor(backgroundColor: Int, textColor: Int, textSize: Float = 14f): Drawable() {
 
     var mBadgePaint: Paint? = null
     private var mTextPaint: Paint? = null
@@ -17,15 +15,15 @@ class QuickBadgeDrawable constructor(context: Context, backgroundColor: Int, tex
 
         //FOR THE CIRCLE
         mBadgePaint = Paint()
-        mBadgePaint!!.color = ContextCompat.getColor(context, backgroundColor)
+        mBadgePaint!!.color = backgroundColor
         mBadgePaint!!.isAntiAlias = true
         mBadgePaint!!.style = Paint.Style.FILL
 
         //FOR THE NUMBER WITHIN THE CIRCLE
         mTextPaint = Paint()
-        mTextPaint!!.color = ContextCompat.getColor(context, textColor)
+        mTextPaint!!.color = textColor
         mTextPaint!!.typeface = Typeface.DEFAULT_BOLD
-        mTextPaint!!.textSize =  context.resources.getDimension(textSize)
+        mTextPaint!!.textSize =  textSize
         mTextPaint!!.isAntiAlias = true
         mTextPaint!!.textAlign = Paint.Align.CENTER
     }
