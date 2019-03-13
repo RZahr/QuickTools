@@ -10,7 +10,7 @@
 Packages
 ========
 
-## **[QuickInjectable]**
+## **[QuickInjectable]** ## 
 
 **mandatory** to be injected in the Application class as follows:
 ```@Inject lateinit var mInjectable: QuickInjectable```
@@ -24,7 +24,7 @@ Packages
  **```currentActivity```**: function used to retrieve the current active activity
  
  
-**[QuickNotificationUtils]**
+## **[QuickNotificationUtils]** ## 
 
 **mandatory** to be created in the application module if notifications are used in the project:
 
