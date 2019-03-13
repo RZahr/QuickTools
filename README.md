@@ -15,8 +15,6 @@ Packages
 **mandatory** to be injected in the Application class as follows:
 ```@Inject lateinit var mInjectable: QuickInjectable```
 
-
-
  **```pref()```**: function used to save and retreive from the shared preference
  
  **```clickGuard()```**: function used to prevent multi-rapid clicks on a view
@@ -100,7 +98,6 @@ Example use:
  QuickInternetCheckService.ONLINE_SINCE_KEY.rzPrefVal<String>()
  QuickInternetCheckService.OFFLINE_SINCE_KEY.rzPrefVal<String>()
  QuickInternetCheckService.IS_ONLINE_KEY.rzPrefVal<Boolean>()
- 
  ```
  
  
