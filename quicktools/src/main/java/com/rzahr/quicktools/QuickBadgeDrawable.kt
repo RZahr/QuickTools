@@ -5,7 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 
-class BadgeDrawable constructor(context: Context, backgroundColor: Int, textColor: Int = R.color.white, textSize: Int = 14): Drawable() {
+class QuickBadgeDrawable constructor(context: Context, backgroundColor: Int, textColor: Int = R.color.white, textSize: Int = 14): Drawable() {
 
     var mBadgePaint: Paint? = null
     private var mTextPaint: Paint? = null

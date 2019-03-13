@@ -18,7 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
-import com.rzahr.quicktools.BadgeDrawable
+import com.rzahr.quicktools.QuickBadgeDrawable
 import com.rzahr.quicktools.QuickInjectable
 import com.rzahr.quicktools.QuickNotificationUtils
 import com.rzahr.quicktools.R
@@ -96,18 +96,19 @@ object QuickUIUtils {
      * @param textColor: the text color
      * @param textSize: the text size
      */
-    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Int = 14, setDrawableByLayerId: (icon: LayerDrawable) -> Unit) {
+    fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Int = 14,
+                           setDrawableByLayerId: (icon: LayerDrawable, badge: Drawable) -> Unit) {
 
-        val badge = if (reuse != null && reuse is BadgeDrawable) {
+        val badge = if (reuse != null && reuse is QuickBadgeDrawable) {
             reuse.invalidateSelf()
-            (reuse as BadgeDrawable?)!!
-        } else BadgeDrawable(QuickInjectable.applicationContext(), backgroundColor, textColor, textSize)
+            (reuse as QuickBadgeDrawable?)!!
+        } else QuickBadgeDrawable(QuickInjectable.applicationContext(), backgroundColor, textColor, textSize)
 
         if (count > 99) badge.setCount("99+")
         else badge.setCount(count.toString() + "")
 
         icon.mutate()
-        setDrawableByLayerId(icon)
+        setDrawableByLayerId(icon, badge)
     }
 
     @SuppressLint("InflateParams")
