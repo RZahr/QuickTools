@@ -7,15 +7,13 @@
 
 
 
-Packages
+Classes
 ========
 
 ## **[QuickInjectable]** ## 
 
 **mandatory** to be injected in the Application class as follows:
 ```@Inject lateinit var mInjectable: QuickInjectable```
-
-
 
  **```pref()```**: function used to save and retreive from the shared preference
  
@@ -30,6 +28,18 @@ Packages
 
  **```initializer```**: mandatory function that will create a channel notification which can be used then across the application after being initialized from the application module
  
+## **[QuickTrafficCalculator]** ## 
+
+Used to calculate the internet consumption of the application in a month. The Consumption is automatically reset every 30 days
+
+ **```check```**: call the following function from the MainActivity
+ 
+ **To check the consumption:**
+ 
+ ```
+  val currentMonthDownloadConsumption = QuickTrafficCalculator.TOTAL_SAVED_DOWNLOAD_TRAFFIC_KEY.rzPrefVal<Long>() * 0.001 * 0.001
+  val currentMonthUploadConsumption = QuickTrafficCalculator.TOTAL_SAVED_UPLOAD_TRAFFIC_KEY.rzPrefVal<Long>() * 0.001 * 0.001
+ ```
   
 ## **[QuickLogWriter]** ## 
 
@@ -88,7 +98,6 @@ Example use:
  QuickInternetCheckService.ONLINE_SINCE_KEY.rzPrefVal<String>()
  QuickInternetCheckService.OFFLINE_SINCE_KEY.rzPrefVal<String>()
  QuickInternetCheckService.IS_ONLINE_KEY.rzPrefVal<Boolean>()
- 
  ```
  
  
@@ -189,3 +198,5 @@ Example use:
 [QuickLogWriter]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickLogWriter.kt
 
 [QuickInternetCheckService]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickInternetCheckService.kt
+
+[QuickTrafficCalculator]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickTrafficCalculator.kt
