@@ -5,6 +5,7 @@ package com.rzahr.quicktools
 import android.content.Context
 import android.net.TrafficStats
 import android.os.SystemClock
+import com.rzahr.quicktools.extensions.addAsDefaultWithId
 import com.rzahr.quicktools.extensions.addWithId
 import com.rzahr.quicktools.extensions.rzPrefVal
 import com.rzahr.quicktools.utils.QuickDateUtils
@@ -12,7 +13,7 @@ import com.rzahr.quicktools.utils.QuickUtils
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-object TrafficCalculator {
+object QuickTrafficCalculator {
 
     const val LAST_SAVED_TIME_BOOTED_KEY = "LastSavedTimeBooted"
     const val LAST_CURRENT_SAVED_UPLOAD_TRAFFIC_KEY = "LastCurrentSavedUploadTraffic"
@@ -26,6 +27,24 @@ object TrafficCalculator {
     fun check(context: Context) {
 
         QuickUtils.backgroundUpdater({
+
+            "0".addAsDefaultWithId(DURATION_APP_ON_KEY)
+            "0".addAsDefaultWithId(DURATION_APP_OFF_KEY)
+            0L.addAsDefaultWithId(TOTAL_SAVED_DOWNLOAD_TRAFFIC_KEY)
+            0L.addAsDefaultWithId(TOTAL_SAVED_UPLOAD_TRAFFIC_KEY)
+            0L.addAsDefaultWithId(LAST_CURRENT_SAVED_DOWNLOAD_TRAFFIC_KEY)
+            0L.addAsDefaultWithId(LAST_CURRENT_SAVED_UPLOAD_TRAFFIC_KEY)
+
+            if (QuickInjectable.pref().checkSharedPrefValueIfExist(LAST_SAVED_TIME_BOOTED_KEY)) {
+                val lastTimeBooted = Date()
+                lastTimeBooted.time = Date().time - SystemClock.elapsedRealtime()
+
+                QuickDateUtils.getDateString(
+                    lastTimeBooted,
+                    QuickDateUtils.DASHED_FORMAT
+                ).addAsDefaultWithId(LAST_SAVED_TIME_BOOTED_KEY)
+            }
+
 
             //the  below is used to calculate the amount of time the app was online and offline when the user was signed in AND ALSO THE TOTAL DOWNLOAD AND UPLOAD TRAFFIC
             if (START_DATE_DATA_CONSUMPTION_KEY.rzPrefVal<String>().isEmpty()) Date().time.toString().addWithId(START_DATE_DATA_CONSUMPTION_KEY)
