@@ -30,6 +30,18 @@ Packages
 
  **```initializer```**: mandatory function that will create a channel notification which can be used then across the application after being initialized from the application module
  
+## **[QuickTrafficCalculator]** ## 
+
+Used to calculate the internet consumption of the application
+
+ **```check```**: call the following function from the MainActivity
+ 
+ **To check the consumption:**
+ 
+ ```
+  val currentMonthDownloadConsumption = QuickTrafficCalculator.TOTAL_SAVED_DOWNLOAD_TRAFFIC_KEY.rzPrefVal<Long>() * 0.001 * 0.001
+  val currentMonthUploadConsumption = QuickTrafficCalculator.TOTAL_SAVED_UPLOAD_TRAFFIC_KEY.rzPrefVal<Long>() * 0.001 * 0.001
+ ```
   
 ## **[QuickLogWriter]** ## 
 
