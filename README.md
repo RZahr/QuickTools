@@ -31,7 +31,7 @@ Packages
  **```initializer```**: mandatory function that will create a channel notification which can be used then across the application after being initialized from the application module
  
   
- ## **[QuickLogWriter]** ## 
+## **[QuickLogWriter]** ## 
 
 object used to perform logging:
 
@@ -45,7 +45,7 @@ Example use:
     QuickLogWriter.appendContents("$logFileNameTemp.txt", msg, false, FolderName, false)
  ```
  
-  ## **[QuickInternetCheckService]** ## 
+## **[QuickInternetCheckService]** ## 
 
 service used to check for a valid internet connection when the application is in foreground:
 
@@ -112,7 +112,7 @@ Example use:
  ```
  
  
- ## **[Base Classes]** ## 
+## **[Base Classes]** ## 
  
  
  `Contains 8 different base classes that can be used accross the app`
@@ -134,7 +134,7 @@ Example use:
 **MVPFragmentDialog**: fragment class defined with a BasePresenter class and implements a BaseViewInterface
 
 
- ## **[Extensions]** ## 
+## **[Extensions]** ## 
  
 **[QuickActivityExtensions]**: Contains extensions that can be used on an activity
 
@@ -145,7 +145,7 @@ Example use:
 **[QuickUIExtensions]**: Contains UI helper extensions
 
 
- ## **[Utils]** ## 
+## **[Utils]** ## 
 
 `Contains 6 different util object each containing a set of functions related to a certain aspect`
 
@@ -162,7 +162,7 @@ Example use:
 **[QuickUtils]**: Contains general functions
 
 
- ## **[All Types]** ## 
+## **[All Types]** ## 
    
 [QuickInjectable]: https://github.com/RZahr/QuickTools/blob/master/quicktools/src/main/java/com/rzahr/quicktools/QuickInjectable.kt
 
