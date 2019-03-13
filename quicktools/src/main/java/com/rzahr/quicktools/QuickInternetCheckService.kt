@@ -3,6 +3,7 @@ package com.rzahr.quicktools
 import android.Manifest
 import android.app.Service
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Binder
@@ -80,6 +81,36 @@ class QuickInternetCheckService : Service() {
         const val ONLINE_SINCE_KEY = "onlineSince"
         const val OFFLINE_SINCE_KEY = "offlineSince"
         const val KEY = "com.rzahr.quicktools.CONNECTION_CHECKER_BROAD_CAST_IDENTIFIER"
+
+        @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+        fun initQuickInternetCheckServiceConnection(mConnectionCheckerServiceConnection: ServiceConnection?): ServiceConnection? {
+
+            if (mConnectionCheckerServiceConnection == null) {
+
+                return initServiceConnection({ binder ->
+
+                    binder.getService()
+
+                }, {})
+            }
+
+            return null
+        }
+
+        @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+        fun bindToConnectionCheckerService(mConnectionCheckerServiceConnection: ServiceConnection?, mContext: Context) {
+
+            initQuickInternetCheckServiceConnection(mConnectionCheckerServiceConnection)
+            // Bind to LocalService
+            mConnectionCheckerServiceConnection?.let {Intent(mContext, QuickInternetCheckService::class.java).also { intent ->
+                mContext.bindService(intent,it, Context.BIND_AUTO_CREATE)
+            }}
+        }
+
+        fun unBindToConnectionCheckerService(mConnectionCheckerServiceConnection: ServiceConnection?, mActivity: Context){
+
+            mConnectionCheckerServiceConnection?.let {mActivity.unbindService(it)}
+        }
 
         /**
          * initialize the service connection object
