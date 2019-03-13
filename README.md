@@ -56,40 +56,20 @@ Example use:
             bManager.unregisterReceiver(mConnectionBroadcastReceiver)
         }
         
-        private fun initQuickInternetCheckServiceConnection() {
-
-            if (mConnectionCheckerServiceConnection == null) {
-
-                mConnectionCheckerServiceConnection = QuickInternetCheckService.initServiceConnection({ binder ->
-
-                    mService = binder.getService()
-                    mBound = true
-
-                }, {
-                    mBound = false
-                })
-            }
-        }
-
-        fun bindToConnectionCheckerService() {
-
-            initQuickInternetCheckServiceConnection()
-            // Bind to LocalService
-            mConnectionCheckerServiceConnection?.let {Intent(mContext, QuickInternetCheckService::class.java).also { intent ->
-                mContext.bindService(intent,it, Context.BIND_AUTO_CREATE)
-            }}
-        }
-
-        fun unBindToConnectionCheckerService(){
-
-            mConnectionCheckerServiceConnection?.let {mActivity.unbindService(it)}
-            mBound = false
-        }
-
         fun registerConnectionCheckerServiceReceiver(bManager: LocalBroadcastManager) {
             val intentFilter = IntentFilter()
             intentFilter.addAction(QuickInternetCheckService.KEY)
             bManager.registerReceiver(mConnectionBroadcastReceiver, intentFilter)
+        }
+        private var mConnectionCheckerServiceConnection: ServiceConnection? = null
+        fun bindToConnectionCheckerService() {
+
+            mConnectionCheckerServiceConnection = QuickInternetCheckService.bindToConnectionCheckerService(mConnectionCheckerServiceConnection, mContext)
+        }
+
+        fun unBindToConnectionCheckerService(){
+
+            QuickInternetCheckService.unBindToConnectionCheckerService(mConnectionCheckerServiceConnection, mActivity)
         }
         
         private val mConnectionBroadcastReceiver = object : BroadcastReceiver() {
