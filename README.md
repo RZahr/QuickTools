@@ -7,7 +7,7 @@
 
 
 
-Packages
+Classes
 ========
 
 ## **[QuickInjectable]** ## 
