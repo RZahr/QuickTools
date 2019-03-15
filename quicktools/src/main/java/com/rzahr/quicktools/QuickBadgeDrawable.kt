@@ -29,9 +29,7 @@ class QuickBadgeDrawable constructor(backgroundColor: Int, textColor: Int, textS
     }
 
     override fun draw(canvas: Canvas) {
-        if (!mWillDraw) {
-            return
-        }
+        if (!mWillDraw) return
 
         //CREATING THE CIRCLE SHAPE
         val bounds = bounds

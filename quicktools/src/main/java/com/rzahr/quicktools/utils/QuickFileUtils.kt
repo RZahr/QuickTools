@@ -10,11 +10,14 @@ import android.webkit.MimeTypeMap
 import com.rzahr.quicktools.QuickInjectable
 import com.rzahr.quicktools.QuickLogWriter
 import com.rzahr.quicktools.R
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.IOException
+import java.io.*
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 /**
  * @author Rashad Zahr
@@ -156,5 +159,100 @@ object QuickFileUtils {
         val matrix = Matrix()
         matrix.setRotate(rotation.toFloat())
         return  Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
+    }
+
+    @Throws(FileNotFoundException::class)
+    fun unzipFile(fileName: String, fileLocation: String, destination: String): File? {
+
+        val zis = ZipInputStream(BufferedInputStream(FileInputStream(File(fileLocation+fileName))))
+        var ze: ZipEntry? = null
+        var count: Int? = null
+        val buffer = ByteArray(8192)
+        var unzippedFile: File? = null
+
+        while ({ ze = zis.nextEntry; ze }() != null) {
+
+            unzippedFile = File(destination + "/" + ze?.name)
+            val dir = if (ze?.isDirectory!!) unzippedFile else unzippedFile.parentFile
+
+            if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException("Failed to ensure directory: " + dir.absolutePath)
+
+            if (ze!!.isDirectory) continue
+
+            FileOutputStream(unzippedFile).use { fileOutputStream ->
+
+                while ({ count = zis.read(buffer); count }() != -1)
+                    count?.let { fileOutputStream.write(buffer, 0, it) }
+            }
+
+            // if time should be restored as well
+            val time = ze!!.time
+
+            if (time > 0) unzippedFile.setLastModified(time)
+        }
+
+        zis.close()
+
+        return if (unzippedFile !== null && unzippedFile.exists()) {
+
+            QuickLogWriter.debugLogging("Un-zip Completed")
+            unzippedFile
+        } else {
+            QuickLogWriter.errorLogging("Error", "the file was deleted or not properly downloaded")
+
+            null
+        }
+    }
+
+    @Throws(Exception::class)
+    fun zipFolder(inputPath: String, outputPath: String, todayFilesOnly: Boolean = false, filesCreatedOnDay: String = "") {
+
+        val oneDay = TimeUnit.DAYS.toMillis(1)
+        val fos = FileOutputStream(outputPath)
+        val zos = ZipOutputStream(fos)
+        val srcFile = File(inputPath)
+        val files = srcFile.listFiles()
+        var initialDuration: Long = 0
+        var toDuration: Long = 0
+        val buffer = ByteArray(1024)
+
+        if (!filesCreatedOnDay.isEmpty()) {
+
+            val month = Calendar.getInstance().get(Calendar.MONTH) + 1
+            val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH)
+            initialDuration = sdf.parse("$filesCreatedOnDay/$month/" + Calendar.getInstance().get(Calendar.YEAR) + " 00:00:00").time
+            toDuration = sdf.parse("$filesCreatedOnDay/$month/" + Calendar.getInstance().get(Calendar.YEAR) + " 23:59:00").time
+        }
+
+        for (file in files) {
+
+            try {
+                if (!filesCreatedOnDay.isEmpty()) {
+
+                    if (file.lastModified() in initialDuration..(toDuration - 1)) zipFolderHelper(zos, file, buffer)
+                } else if (todayFilesOnly) {
+
+                    if (Date().time - file.lastModified() <= oneDay) zipFolderHelper(zos, file, buffer)
+                } else zipFolderHelper(zos, file, buffer)
+            }
+            catch (e: Exception) {
+                QuickLogWriter.errorLogging("Error", e.toString())
+            }
+        }
+
+        zos.close()
+    }
+
+    private fun zipFolderHelper(zos: ZipOutputStream, file: File, buffer: ByteArray) {
+
+        var length: Int? = null
+        QuickLogWriter.debugLogging("Adding file: " + file.name)
+        zos.putNextEntry(ZipEntry(file.name))
+        FileInputStream(file).use { fileInputStream ->
+
+            while ({ length = fileInputStream.read(buffer); length }() != -1)
+                length?.let { zos.write(buffer, 0, it) }
+        }
+        zos.closeEntry()
     }
 }
