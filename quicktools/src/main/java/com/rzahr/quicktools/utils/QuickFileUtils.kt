@@ -164,7 +164,7 @@ object QuickFileUtils {
     @Throws(FileNotFoundException::class)
     fun unzipFile(fileName: String, fileLocation: String, destination: String): File? {
 
-        val zis = ZipInputStream(BufferedInputStream(FileInputStream(File(fileLocation+fileName))))
+        val zis = ZipInputStream(BufferedInputStream(FileInputStream(File("$fileLocation/$fileName"))))
         var ze: ZipEntry? = null
         var count: Int? = null
         val buffer = ByteArray(8192)
@@ -172,7 +172,8 @@ object QuickFileUtils {
 
         while ({ ze = zis.nextEntry; ze }() != null) {
 
-            unzippedFile = File(destination + "/" + ze?.name)
+            unzippedFile = File("$destination/${ze?.name}")
+
             val dir = if (ze?.isDirectory!!) unzippedFile else unzippedFile.parentFile
 
             if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException("Failed to ensure directory: " + dir.absolutePath)
