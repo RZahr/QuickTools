@@ -4,8 +4,8 @@
 
 [![](https://jitpack.io/v/rzahr/QuickTools.svg)](https://jitpack.io/#rzahr/QuickTools)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://github.com/dwyl/esta/issues)
+[![HitCount](http://hits.dwyl.io/rzahr/quicktools.svg)](http://hits.dwyl.io/rzahr/quicktools)
 
 Classes
 ========
