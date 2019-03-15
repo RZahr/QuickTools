@@ -2,6 +2,7 @@
 
 package com.rzahr.quicktools.utils
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +35,7 @@ object QuickDateUtils {
      * @param format the format
      * @return a date string
      */
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentDate(english: Boolean = true, format: String = DASHED_FORMAT): String {
 
         val now = Date()

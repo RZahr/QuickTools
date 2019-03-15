@@ -2,7 +2,6 @@
 
 package com.rzahr.quicktools
 
-import android.annotation.SuppressLint
 import android.os.Environment
 import android.util.Log
 import com.rzahr.quicktools.utils.QuickDateUtils
@@ -11,12 +10,10 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 object QuickLogWriter {
 
-   const val TAG = "QuickTools_LogWriter"
+    const val TAG = "QuickTools_LogWriter"
 
     /**
      * get caller class string [ ].
@@ -48,20 +45,6 @@ object QuickLogWriter {
         appendContents("$logFileNameTemp.txt", "Activity: " + callingMethod[1] + "         Method: " + callingMethod[2] + " Line Number: " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
     }
 
-    fun logFromSourceClass(logName: String, message: String, deleteFileIfExist: Boolean, folderName: String) {
-
-        try {
-
-            val callingMethod = getCallerClass(3)
-            appendContents(
-                QuickInjectable.pref().get(logName) + ".txt",
-                "Activity: " + callingMethod[1] + "         Method: " + callingMethod[2] + " Line Number: " + callingMethod[0] + " Msg: " + message + " \n"
-                ,true, folderName, deleteFileIfExist)
-        } catch (ignored: Exception) {
-        }
-    }
-
-
     /**
      * Print stack trace.
      * @param e the e
@@ -72,7 +55,20 @@ object QuickLogWriter {
 
     fun debugLogging(message: Any) {
 
-        val callingMethod = getCallerClass(3)
+        var level = 4
+        try {
+            for (stack in Thread.currentThread().stackTrace) {
+
+                if (stack.className.contains(QuickInjectable.applicationContext().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
+
+                    level = Thread.currentThread().stackTrace.indexOf(stack)
+                    break
+                }
+            }
+        }
+        catch (ignored: java.lang.Exception){}
+
+        val callingMethod = getCallerClass(level)
         Log.d(callingMethod[1] + " (" + callingMethod[0] + ")", "Method: " + callingMethod[2] + " Msg: " + message)
     }
 
@@ -91,7 +87,7 @@ object QuickLogWriter {
                 val oWriter = BufferedWriter(FileWriter(File(filePath), true))
                 try {
                     oWriter.newLine()
-                    if (includeDate) oWriter.write(" ###" + getTodayDateAndTime() + ":" + sContent + " \n\r")
+                    if (includeDate) oWriter.write(" ###" + QuickDateUtils.getCurrentDate(true, QuickDateUtils.SLASHED_FORMAT) + ":" + sContent + " \n\r")
                     else oWriter.write(sContent)
                 } finally {
                     QuickUtils.safeCloseBufferedWriter(oWriter)
@@ -102,20 +98,6 @@ object QuickLogWriter {
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun getTodayDateAndTime(): String {
-
-        return try {
-            val now = Date()
-            SimpleDateFormat(QuickDateUtils.SLASHED_FORMAT, Locale.ENGLISH).format(now)
-        }
-        catch (exx: Exception) {
-            Log.e(TAG, "Error in GetTodayDateAndTime:$exx")
-            ""
-        }
-    }
-
-
     /**
      * Error logging.
      *
@@ -124,7 +106,21 @@ object QuickLogWriter {
      */
     fun errorLogging(message: Any, error: Any) {
         try {
-            val callingMethod = getCallerClass(4)
+
+            var level = 4
+            try {
+                for (stack in Thread.currentThread().stackTrace) {
+
+                    if (stack.className.contains(QuickInjectable.applicationContext().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
+
+                        level = Thread.currentThread().stackTrace.indexOf(stack)
+                        break
+                    }
+                }
+            }
+            catch (ignored: java.lang.Exception){}
+
+            val callingMethod = getCallerClass(level)
             Log.e(
                 callingMethod[1] + " (" + callingMethod[0] + ")",
                 "Method: " + callingMethod[2] + " Msg: " + message + " //**//Error: " + error
@@ -132,5 +128,4 @@ object QuickLogWriter {
         }
         catch (ignored: java.lang.Exception){}
     }
-
 }
