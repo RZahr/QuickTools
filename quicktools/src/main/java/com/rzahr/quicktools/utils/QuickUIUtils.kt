@@ -205,7 +205,7 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null) {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
 
         val a = createCustomAlert(title, message, cancelable, context)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
@@ -275,6 +275,8 @@ object QuickUIUtils {
         }
         // finally, show the alert button
         //showAlert(builder)
+
+        return alert
     }
 
     /**
@@ -291,7 +293,7 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null) {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
 
         val a = createCustomAlert(title, message, cancelable, context)
         val dialogView = a[1] as View
@@ -360,5 +362,7 @@ object QuickUIUtils {
                 alert.cancel()
             }
         }
+
+        return alert
     }
 }
