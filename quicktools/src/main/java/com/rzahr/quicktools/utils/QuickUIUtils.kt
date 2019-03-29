@@ -20,10 +20,7 @@ import androidx.core.app.NotificationCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.rzahr.quicktools.*
-import com.rzahr.quicktools.extensions.openTopActivityOnClick
-import com.rzahr.quicktools.extensions.rzSetVisibilityInvisible
-import com.rzahr.quicktools.extensions.rzSetVisible
-import com.rzahr.quicktools.extensions.setSoundAndVibrate
+import com.rzahr.quicktools.extensions.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 
 /**
@@ -233,7 +230,7 @@ object QuickUIUtils {
 
             if (positiveButtonText.isEmpty())  {
 
-                dialogView.admin_cancel_mb.rzSetVisibilityInvisible()
+                dialogView.admin_cancel_mb.rzSetVisibilityGone()
                 dialogView.admin_ok_mb.rzSetVisible()
 
                 dialogView.admin_ok_mb.text = negativeButtonTextTemp
@@ -320,7 +317,7 @@ object QuickUIUtils {
 
             if (positiveButtonText.isEmpty())  {
 
-                dialogView.admin_cancel_mb.rzSetVisibilityInvisible()
+                dialogView.admin_cancel_mb.rzSetVisibilityGone()
                 dialogView.admin_ok_mb.rzSetVisible()
 
                 dialogView.admin_ok_mb.text = negativeButtonTextTemp
