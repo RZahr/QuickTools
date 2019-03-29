@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.rzahr.quicktools.utils
 
@@ -14,14 +14,12 @@ import android.text.Spanned
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
-import com.rzahr.quicktools.QuickBadgeDrawable
-import com.rzahr.quicktools.QuickInjectable
-import com.rzahr.quicktools.QuickNotificationUtils
-import com.rzahr.quicktools.R
+import com.rzahr.quicktools.*
 import com.rzahr.quicktools.extensions.openTopActivityOnClick
 import com.rzahr.quicktools.extensions.rzSetVisibilityInvisible
 import com.rzahr.quicktools.extensions.rzSetVisible
@@ -97,7 +95,7 @@ object QuickUIUtils {
      * @param textSize: the text size
      */
     fun setBadgeOnDrawable(icon: LayerDrawable, count: Int, backgroundColor: Int, reuse: Drawable?, textColor: Int = R.color.white, textSize: Float = 14f,
-                           badgeDrawable: Int ,setDrawableByLayerId: (icon: LayerDrawable, badge: Drawable) -> Unit) {
+                           badgeDrawable: Int, setDrawableByLayerId: (icon: LayerDrawable, badge: Drawable) -> Unit) {
 
         val badge = if (reuse != null && reuse is QuickBadgeDrawable) {
             reuse.invalidateSelf()
@@ -114,7 +112,7 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context): Array<Any> {
+    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -149,11 +147,17 @@ object QuickUIUtils {
             }
         }
 
+        if (center) {
+
+            val p = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            p.weight = 2f
+            dialogView.admin_ok_mb.layoutParams = p
+        }
         return arrayOf(builder, dialogView, alert)
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context): Array<Any> {
+    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -186,6 +190,13 @@ object QuickUIUtils {
                 }
                 true
             }
+        }
+
+        if (center) {
+
+            val p = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            p.weight = 2f
+            dialogView.admin_ok_mb.layoutParams = p
         }
 
         return arrayOf(builder, dialogView, alert)
@@ -205,9 +216,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog {
 
-        val a = createCustomAlert(title, message, cancelable, context)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog
@@ -293,9 +304,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog {
 
-        val a = createCustomAlert(title, message, cancelable, context)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton)
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog
 
