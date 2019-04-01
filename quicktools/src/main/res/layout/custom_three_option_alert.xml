@@ -39,33 +39,30 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="end"
-                  android:weightSum="3"
+                  android:orientation="vertical"
                   android:layout_marginStart="@dimen/general_margin"
                   android:layout_marginEnd="@dimen/general_margin">
 
-        <com.google.android.material.button.MaterialButton android:layout_width="0dp"
-                                                           android:layout_weight="1"
-                                                           android:layout_height="match_parent"
+        <com.google.android.material.button.MaterialButton android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
                                                            android:id="@+id/option_one_mb"
                                                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                                            android:layout_margin="@dimen/general_margin"
-                                                           />
+        />
 
-        <com.google.android.material.button.MaterialButton android:layout_width="0dp"
-                                                           android:layout_weight="1"
-                                                           android:layout_height="match_parent"
+        <com.google.android.material.button.MaterialButton android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
                                                            android:id="@+id/option_two_mb"
                                                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                                            android:layout_margin="@dimen/general_margin"
-                                                          />
+        />
 
-        <com.google.android.material.button.MaterialButton android:layout_width="0dp"
-                                                           android:layout_weight="1"
-                                                           android:layout_height="match_parent"
+        <com.google.android.material.button.MaterialButton android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
                                                            android:id="@+id/option_three_mb"
                                                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                                            android:layout_margin="@dimen/general_margin"
-                                                           />
+        />
 
     </LinearLayout>
 
