@@ -118,8 +118,14 @@ object QuickUIUtils {
         builder.setView(dialogView)
         builder.setCancelable(false)
 
-        dialogView.alert_title_tv.text = title
-        dialogView.alert_description_tv.text = message
+        if (layout == R.layout.custom_alert_dialog) {
+            dialogView.alert_title_tv.text = title
+            dialogView.alert_description_tv.text = message
+        }
+        else if (layout == R.layout.custom_three_option_alert) {
+            dialogView.alert_text_title_tv.text = title
+            dialogView.alert_text_description_tv.text = message
+        }
 
         val alert = builder.show()
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -300,7 +306,7 @@ object QuickUIUtils {
      * @param cancelable: boolean value representing if the alert dialog is cancellable
      * @param logo: the optional logo icon
      */
-    fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,, thirdAction: () -> Unit,
+    fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit, thirdAction: () -> Unit,
                                  cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
 
         val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert)

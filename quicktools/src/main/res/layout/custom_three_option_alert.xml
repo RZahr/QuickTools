@@ -13,7 +13,7 @@
                android:background="@color/transparent"
                android:alpha="0.8"/>
 
-    <TextView android:id="@+id/alert_title_tv"
+    <TextView android:id="@+id/alert_text_title_tv"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
@@ -27,7 +27,7 @@
               android:background="#b1aeae"
               android:layout_marginBottom="@dimen/general_margin_double"/>
 
-    <TextView android:id="@+id/alert_description_tv"
+    <TextView android:id="@+id/alert_text_description_tv"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
