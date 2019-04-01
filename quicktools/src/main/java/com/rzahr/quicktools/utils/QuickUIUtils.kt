@@ -22,6 +22,7 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.rzahr.quicktools.*
 import com.rzahr.quicktools.extensions.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
+import kotlinx.android.synthetic.main.custom_three_option_alert.view.*
 
 /**
  * @author Rashad Zahr
@@ -109,11 +110,11 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any> {
+    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog): Array<Any> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_alert_dialog, null)
+        val dialogView = LayoutInflater.from(context).inflate(layout, null)
         builder.setView(dialogView)
         builder.setCancelable(false)
 
@@ -283,6 +284,66 @@ object QuickUIUtils {
         }
         // finally, show the alert button
         //showAlert(builder)
+
+        return alert
+    }
+
+    /**
+     * creates a quick custom alert dialog
+     * @param title: the alert title
+     * @param message: the alert message
+     * @param negativeButtonText: the alert negative button text
+     * @param positiveButtonText: the alert positive button text
+     * @param context: the context
+     * @param positiveAction: the action after positive button clicked
+     * @param negativeAction: the action after negative button clicked
+     * @param cancelable: boolean value representing if the alert dialog is cancellable
+     * @param logo: the optional logo icon
+     */
+    fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,, thirdAction: () -> Unit,
+                                 cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
+
+        val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert)
+        // create the alert dialog and set it to cancellable or not depending on what was supplied
+        val dialogView = a[1] as View
+        val alert = a[2] as AlertDialog
+
+        dialogView.option_one_mb.text = negativeButtonText
+
+        // set the negative button action
+        dialogView.option_one_mb.setOnClickListener {
+
+            //  run {
+            alert.cancel()
+            negativeAction()
+            //   }
+        }
+
+        if (logo != null) {
+
+            dialogView.alert_image_iv.rzSetVisible()
+            dialogView.alert_image_iv.setImageDrawable(logo)
+        }
+
+        // if the alert has a positive button (the positive button text is not empty) then set the positive button action to the action supplied
+        dialogView.option_two_mb.text = positiveButtonText
+
+        dialogView.option_three_mb.text = thirdButtonText
+
+        // set the negative button action
+        dialogView.option_two_mb.setOnClickListener {
+
+            positiveAction()
+
+            alert.cancel()
+        }
+
+        dialogView.option_three_mb.setOnClickListener {
+
+            thirdAction()
+
+            alert.cancel()
+        }
 
         return alert
     }
