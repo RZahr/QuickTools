@@ -33,7 +33,7 @@ android {
 dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.dagger:dagger:2.21'
+    implementation 'com.google.dagger:dagger:2.22.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     //https://github.com/ECLaboratorio/BubbleShowCase-Android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7119

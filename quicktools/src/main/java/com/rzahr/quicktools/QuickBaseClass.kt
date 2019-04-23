@@ -288,7 +288,7 @@ class QuickBaseClass {
      * base MVVM structure fragment
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    abstract class MVVMFragment<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
+    abstract class MVVMFragmentoLD<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
 
         var mViewModel: VM? = null
 
@@ -344,7 +344,7 @@ class QuickBaseClass {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    abstract class MVVMFragmentoLD<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
+    abstract class MVVMFragment<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
 
         @Inject
         lateinit var viewModelFactory: ViewModelProvider.Factory
