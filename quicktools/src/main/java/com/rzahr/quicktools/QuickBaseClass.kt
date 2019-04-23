@@ -290,6 +290,62 @@ class QuickBaseClass {
     @Suppress("MemberVisibilityCanBePrivate")
     abstract class MVVMFragment<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
 
+        var mViewModel: VM? = null
+
+        @Inject lateinit var mClickGuard: QuickClickGuard
+
+        override fun setPresenter(presenter: BasePresenter<*,*>) {
+        }
+
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+            return inflater.inflate(layoutId, container, false)
+        }
+
+        fun <T : ViewModel> setGVViewModel(savedInstanceState: Bundle?, modelClass: Class<T>, triggerRestoreState: Boolean = true) {
+
+            @Suppress("UNCHECKED_CAST")
+            mViewModel = ViewModelProviders.of(this).get(modelClass) as VM
+
+            lifecycle.addObserver(mViewModel!!)
+
+            if (triggerRestoreState) (mViewModel)?.restoreState(savedInstanceState)
+        }
+
+        fun getViewModel(): BaseViewModel? {
+
+            return mViewModel
+        }
+
+        override fun onSaveInstanceState(outState: Bundle) {
+            super.onSaveInstanceState(outState)
+
+            mViewModel?.saveState(outState)
+        }
+
+        override fun onResume() {
+            super.onResume()
+
+            if (lockOrientation) {
+                // set orientation strictly to portrait and hide the toolbar
+                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                if (hideToolbar) (activity as AppCompatActivity).supportActionBar!!.hide()
+            }
+        }
+
+        override fun onStop() {
+            super.onStop()
+
+            if (lockOrientation) {
+                if (hideToolbar) activity?.showToolbar()
+                activity?.unLockOrientation()
+            }
+        }
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    abstract class MVVMFragmentoLD<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
+
         @Inject
         lateinit var viewModelFactory: ViewModelProvider.Factory
         var mViewModel: VM? = null
