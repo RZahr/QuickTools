@@ -1,5 +1,6 @@
 package com.rzahr.quicktools.extensions
 
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -37,7 +38,7 @@ fun NotificationCompat.Builder.setSoundAndVibrate() {
  * @param context the context
  * @param defaultActivity the default activity to open in case the current activity cannot be fetched
  */
-fun NotificationCompat.Builder.openTopActivityOnClick(context: Context, defaultActivity: Class<Any>?) {
+fun NotificationCompat.Builder.openTopActivityOnClick(context: Context, defaultActivity: Class<Activity>?) {
 
     val currentActivity = QuickInjectable.currentActivity()
 

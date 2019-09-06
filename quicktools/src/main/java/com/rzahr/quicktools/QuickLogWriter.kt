@@ -35,14 +35,14 @@ object QuickLogWriter {
 
     fun logErrorHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
-        Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Method: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
-        appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", "Activity: " + callingMethod[1] + "         Method: " + callingMethod[2] + " Line Number: " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
+        Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
+        appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
     }
 
     fun logHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
-        Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Method: " + callingMethod[2] + " Msg: " + msg)
-        appendContents("$logFileNameTemp.txt", "Activity: " + callingMethod[1] + "         Method: " + callingMethod[2] + " Line Number: " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
+        Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg)
+        appendContents("$logFileNameTemp.txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
     }
 
     /**
@@ -69,7 +69,7 @@ object QuickLogWriter {
         catch (ignored: java.lang.Exception){}
 
         val callingMethod = getCallerClass(level)
-        Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Method: " + callingMethod[2] + " Msg: " + message)
+        Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + message)
     }
 
     @Synchronized
@@ -123,7 +123,7 @@ object QuickLogWriter {
             val callingMethod = getCallerClass(level)
             Log.e(
                 callingMethod[1] + " (" + callingMethod[0] + ")",
-                "Method: " + callingMethod[2] + " Msg: " + message + " //**//Error: " + error
+                "Func: " + callingMethod[2] + " Msg: " + message + " //**//Error: " + error
             )
         }
         catch (ignored: java.lang.Exception){}

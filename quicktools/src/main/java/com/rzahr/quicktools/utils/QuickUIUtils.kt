@@ -4,6 +4,7 @@ package com.rzahr.quicktools.utils
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
@@ -74,7 +75,7 @@ object QuickUIUtils {
      * @param defaultActivity: the default activity that needs to be opened
      */
     fun sendNotification(title: String, message: String, utils: QuickNotificationUtils, context: Context, key: String = title + message, smallIcon: Int,
-                         id: String, logo: Int, defaultActivity: Class<Any>) {
+                         id: String, logo: Int, defaultActivity: Class<Activity>?) {
 
         val notificationCompatBuilder = utils.getNotificationBuilder(title, message, false, smallIcon, id, logo)
         notificationCompatBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(message))
