@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="general_margin">5dp</dimen>
-    <dimen name="general_margin_double">10</dimen>
+    <dimen name="general_margin_double">10dp</dimen>
 
     <dimen name="general_padding" tools:ignore="UnusedResources">5dp</dimen>
     <dimen name="general_padding_double" tools:ignore="UnusedResources">10dp</dimen>
