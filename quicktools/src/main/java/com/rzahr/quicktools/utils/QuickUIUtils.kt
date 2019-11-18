@@ -123,12 +123,14 @@ object QuickUIUtils {
             dialogView.alert_title_tv.text = title
             dialogView.alert_description_tv.text = message
         }
+
         else if (layout == R.layout.custom_three_option_alert) {
             dialogView.alert_text_title_tv.text = title
             dialogView.alert_text_description_tv.text = message
         }
 
         val alert = builder.show()
+
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         if (cancelable) {
@@ -158,6 +160,7 @@ object QuickUIUtils {
             p.weight = 2f
             dialogView.admin_ok_mb.layoutParams = p
         }
+
         return arrayOf(builder, dialogView, alert)
     }
 

@@ -457,7 +457,7 @@ class QuickBaseClass {
             if (lockOrientation) {
                 // set orientation strictly to portrait and hide the toolbar
                 activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                (activity as AppCompatActivity).supportActionBar!!.hide()
+                (activity as AppCompatActivity).supportActionBar?.hide()
             }
         }
 
