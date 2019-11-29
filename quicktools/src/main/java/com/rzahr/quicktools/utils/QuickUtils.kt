@@ -88,13 +88,14 @@ object QuickUtils {
     /**
      * uses rx java to perform a background task
      */
-    fun backgroundUpdater(backgroundFunction: () -> Any?, ForegroundFunction: (it: Any?) -> Unit, ErrorFunction: (it: Throwable) -> Unit?) {
+    fun backgroundUpdater(backgroundFunction: () -> Any?, ForegroundFunction: (it: Any?) -> Unit, ErrorFunction: (it: Throwable) -> Unit?, ErrorFunction2: () -> Any? = {}) {
 
         Single.fromCallable { backgroundFunction() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterSuccess { ForegroundFunction(it) }
             .doOnError{ ErrorFunction(it) }
+            .doOnError{ ErrorFunction2() }
             .subscribe()
     }
 
