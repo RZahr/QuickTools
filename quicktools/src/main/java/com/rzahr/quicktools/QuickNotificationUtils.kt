@@ -54,6 +54,17 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
         getManager()!!.createNotificationChannel(notificationChannel)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createChannel(channelId: String, channelName: String, importance: Int) {
+
+        if (getManager()!!.getNotificationChannel(channelId) != null) {
+            return
+        }
+        // create notification channel
+        val notificationChannel = NotificationChannel(channelId, channelName, importance)
+        getManager()!!.createNotificationChannel(notificationChannel)
+    }
+
     private fun getManager(): NotificationManager? {
 
         if (mManager == null) mManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -76,5 +87,31 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
             .setOngoing(onGoing)
             .setAutoCancel(!onGoing)
             .setWhen(System.currentTimeMillis())
+    }
+
+
+    fun getNotificationBuilder(style: NotificationCompat.Style, defaulted: Boolean, title: String, body: String, onGoing: Boolean, smallIcon: Int, id: String, logo: Int): NotificationCompat.Builder {
+        val largeIcon = BitmapFactory.decodeResource(
+            context.resources,
+            logo
+        )
+
+        val builder = NotificationCompat.Builder(context, id)
+            .setStyle(style)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSmallIcon(smallIcon)
+
+            .setOngoing(onGoing)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+
+            .setLargeIcon(largeIcon)
+            .setBadgeIconType(smallIcon)
+            .setAutoCancel(!onGoing)
+            .setWhen(System.currentTimeMillis())
+
+        if (defaulted) builder.setDefaults(NotificationCompat.DEFAULT_ALL)
+
+        return builder
     }
 }
