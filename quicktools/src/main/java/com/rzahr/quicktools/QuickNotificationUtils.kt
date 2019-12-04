@@ -88,30 +88,4 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
             .setAutoCancel(!onGoing)
             .setWhen(System.currentTimeMillis())
     }
-
-
-    fun getNotificationBuilder(style: NotificationCompat.Style, defaulted: Boolean, title: String, body: String, onGoing: Boolean, smallIcon: Int, id: String, logo: Int): NotificationCompat.Builder {
-        val largeIcon = BitmapFactory.decodeResource(
-            context.resources,
-            logo
-        )
-
-        val builder = NotificationCompat.Builder(context, id)
-            .setStyle(style)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setSmallIcon(smallIcon)
-
-            .setOngoing(onGoing)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-
-            .setLargeIcon(largeIcon)
-            .setBadgeIconType(smallIcon)
-            .setAutoCancel(!onGoing)
-            .setWhen(System.currentTimeMillis())
-
-        if (defaulted) builder.setDefaults(NotificationCompat.DEFAULT_ALL)
-
-        return builder
-    }
 }
