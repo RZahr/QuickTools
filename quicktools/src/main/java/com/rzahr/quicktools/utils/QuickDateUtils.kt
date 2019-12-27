@@ -3,7 +3,11 @@
 package com.rzahr.quicktools.utils
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -15,6 +19,20 @@ object QuickDateUtils {
 
     const val DASHED_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val SLASHED_FORMAT = "dd/MM/yyyy hh:mm:ss a"
+
+
+    fun convertToDate(dateString: String, format: String = DASHED_FORMAT): Date? {
+
+        return SimpleDateFormat(format, Locale.ENGLISH).parse(dateString)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertToLocalDate(dateString: String, format: String = DASHED_FORMAT): LocalDate {
+
+
+        val formatter =   DateTimeFormatter.ofPattern(format, Locale.ENGLISH)
+        return LocalDate.parse(dateString, formatter)
+    }
 
     /**
      * returns a string date

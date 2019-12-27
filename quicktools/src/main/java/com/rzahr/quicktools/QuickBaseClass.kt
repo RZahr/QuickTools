@@ -3,6 +3,7 @@ package com.rzahr.quicktools
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -149,6 +150,15 @@ class QuickBaseClass {
             super.attachBaseContext(QuickContextWrapper.wrap(newBase,QuickInjectable.pref().get("Language")))
         }
 
+        override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+            if (overrideConfiguration != null) {
+                val uiMode = overrideConfiguration.uiMode
+                overrideConfiguration.setTo(baseContext.resources.configuration)
+                overrideConfiguration.uiMode = uiMode
+            }
+            super.applyOverrideConfiguration(overrideConfiguration)
+        }
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -166,6 +176,7 @@ class QuickBaseClass {
     abstract class AbstractFragment : Fragment(), BaseViewInterface {
 
         private var presenter: BasePresenter<*,*>? = null
+
 
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
@@ -233,6 +244,16 @@ class QuickBaseClass {
             super.onCreate(savedInstanceState)
 
             onActivityInject()
+        }
+
+
+        override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+            if (overrideConfiguration != null) {
+                val uiMode = overrideConfiguration.uiMode
+                overrideConfiguration.setTo(baseContext.resources.configuration)
+                overrideConfiguration.uiMode = uiMode
+            }
+            super.applyOverrideConfiguration(overrideConfiguration)
         }
 
         override fun setPresenter(presenter: BasePresenter<*,*>) {
