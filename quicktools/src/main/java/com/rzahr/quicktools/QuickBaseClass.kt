@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -151,10 +153,12 @@ class QuickBaseClass {
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (overrideConfiguration != null) {
-                val uiMode = overrideConfiguration.uiMode
-                overrideConfiguration.setTo(baseContext.resources.configuration)
-                overrideConfiguration.uiMode = uiMode
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+                if (overrideConfiguration != null) {
+                    val uiMode = overrideConfiguration.uiMode
+                    overrideConfiguration.setTo(baseContext.resources.configuration)
+                    overrideConfiguration.uiMode = uiMode
+                }
             }
             super.applyOverrideConfiguration(overrideConfiguration)
         }
@@ -246,12 +250,13 @@ class QuickBaseClass {
             onActivityInject()
         }
 
-
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (overrideConfiguration != null) {
-                val uiMode = overrideConfiguration.uiMode
-                overrideConfiguration.setTo(baseContext.resources.configuration)
-                overrideConfiguration.uiMode = uiMode
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+                if (overrideConfiguration != null) {
+                    val uiMode = overrideConfiguration.uiMode
+                    overrideConfiguration.setTo(baseContext.resources.configuration)
+                    overrideConfiguration.uiMode = uiMode
+                }
             }
             super.applyOverrideConfiguration(overrideConfiguration)
         }
