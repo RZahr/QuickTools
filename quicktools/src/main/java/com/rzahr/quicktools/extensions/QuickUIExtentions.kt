@@ -2,6 +2,7 @@
 
 package com.rzahr.quicktools.extensions
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,8 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.google.android.material.button.MaterialButton
 import com.rzahr.quicktools.QuickClickGuard
+import io.reactivex.Completable
+import io.reactivex.subjects.CompletableSubject
 
 /**
  * @author Rashad Zahr
@@ -140,6 +144,30 @@ fun View.rzVisible(): Boolean {
 fun View.rzSetVisible() {
 
     this.visibility = View.VISIBLE
+}
+
+fun View.rzFadeIn(duration: Long): Completable {
+    this.alpha = 0f
+    val animationSubject = CompletableSubject.create()
+    return animationSubject.doOnSubscribe {
+        ViewCompat.animate(this)
+            .setDuration(duration)
+            .alpha(1f)
+            .withEndAction {
+                animationSubject.onComplete()
+            }
+    }
+}
+
+fun View.rzOfFloat(durationn: Long): Completable {
+    val animationSubject = CompletableSubject.create()
+    return animationSubject.doOnSubscribe {
+        ObjectAnimator.ofFloat(this, "translationX", 1500f,1000f,0f).apply {
+            duration = durationn
+            start()
+            animationSubject.onComplete()
+        }
+    }
 }
 
 /**
