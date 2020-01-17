@@ -6,6 +6,7 @@ import com.rzahr.quicktools.QuickInjectable
 import com.rzahr.quicktools.QuickLogWriter
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.util.*
 
@@ -128,16 +129,21 @@ object QuickDBUtils {
             getDBPath(), false
         )
 
-        val inputStream = FileInputStream(dbExternalPath + downloadedDbName)
-        val out = FileOutputStream(File(outFileName))
-        val buf = ByteArray(1024)
-        while (inputStream.read(buf) > 0) {
-            out.write(buf)
-        }
+        try {
+            val inputStream = FileInputStream(dbExternalPath + downloadedDbName)
+            val out = FileOutputStream(File(outFileName))
+            val buf = ByteArray(1024)
+            while (inputStream.read(buf) > 0) {
+                out.write(buf)
+            }
 
-        inputStream.close()
-        out.flush()
-        out.close()
+            inputStream.close()
+            out.flush()
+            out.close()
+        }
+        catch (e: FileNotFoundException){
+            return false
+        }
 
         return true
     }

@@ -111,7 +111,7 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog): Array<Any> {
+    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -129,7 +129,9 @@ object QuickUIUtils {
             dialogView.alert_text_description_tv.text = message
         }
 
-        val alert = builder.show()
+        var alert: AlertDialog? = null
+
+        if(!(context as Activity).isFinishing) alert = builder.show()
 
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -165,7 +167,7 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any> {
+    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -176,7 +178,10 @@ object QuickUIUtils {
         dialogView.alert_title_tv.text = title
         dialogView.alert_description_tv.text = message
 
-        val alert = builder.show()
+        var alert: AlertDialog? = null
+
+        if(!(context as Activity).isFinishing) alert = builder.show()
+
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         if (cancelable) {
@@ -224,12 +229,12 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog? {
 
         val a = createCustomAlert(title, message, cancelable, context, centerButton)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
-        val alert = a[2] as AlertDialog
+        val alert = a[2] as AlertDialog?
 
         // if the alert has a negative button then set it
         if (hasNegativeButton) {
@@ -250,7 +255,7 @@ object QuickUIUtils {
                 dialogView.admin_ok_mb.setOnClickListener {
 
                     //  run {
-                    alert.cancel()
+                    alert?.cancel()
                     negativeAction()
                     //   }
                 }
@@ -265,7 +270,7 @@ object QuickUIUtils {
                 dialogView.admin_cancel_mb.setOnClickListener {
 
                     //  run {
-                    alert.cancel()
+                    alert?.cancel()
                     negativeAction()
                     //   }
                 }
@@ -289,7 +294,7 @@ object QuickUIUtils {
 
                 positiveAction()
 
-                alert.cancel()
+                alert?.cancel()
             }
         }
         // finally, show the alert button
@@ -311,12 +316,12 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit, thirdAction: () -> Unit,
-                                 cancelable: Boolean = true, logo: Drawable? = null): AlertDialog {
+                                 cancelable: Boolean = true, logo: Drawable? = null): AlertDialog? {
 
         val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
-        val alert = a[2] as AlertDialog
+        val alert = a[2] as AlertDialog?
 
         dialogView.option_one_mb.text = negativeButtonText
 
@@ -324,7 +329,7 @@ object QuickUIUtils {
         dialogView.option_one_mb.setOnClickListener {
 
             //  run {
-            alert.cancel()
+            alert?.cancel()
             negativeAction()
             //   }
         }
@@ -345,14 +350,14 @@ object QuickUIUtils {
 
             positiveAction()
 
-            alert.cancel()
+            alert?.cancel()
         }
 
         dialogView.option_three_mb.setOnClickListener {
 
             thirdAction()
 
-            alert.cancel()
+            alert?.cancel()
         }
 
         return alert
@@ -372,11 +377,11 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog? {
 
         val a = createCustomAlert(title, message, cancelable, context, centerButton)
         val dialogView = a[1] as View
-        val alert = a[2] as AlertDialog
+        val alert = a[2] as AlertDialog?
 
         // if the alert has a negative button then set it
         if (hasNegativeButton) {
@@ -397,7 +402,7 @@ object QuickUIUtils {
                 dialogView.admin_ok_mb.setOnClickListener {
 
                     //  run {
-                    alert.cancel()
+                    alert?.cancel()
                     negativeAction()
                     //   }
                 }
@@ -413,7 +418,7 @@ object QuickUIUtils {
                 dialogView.admin_cancel_mb.setOnClickListener {
 
                     //  run {
-                    alert.cancel()
+                    alert?.cancel()
                     negativeAction()
                     //   }
                 }
@@ -438,7 +443,7 @@ object QuickUIUtils {
 
                 positiveAction()
 
-                alert.cancel()
+                alert?.cancel()
             }
         }
 
