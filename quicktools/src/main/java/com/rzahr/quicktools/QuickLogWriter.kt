@@ -32,12 +32,14 @@ object QuickLogWriter {
             arrayOf("", "", "")
         }
     }
+    @Suppress("DEPRECATION")
     @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun logErrorHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
         Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
         appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
     }
+    @Suppress("DEPRECATION")
     @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun logHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
@@ -86,6 +88,7 @@ object QuickLogWriter {
     }
 
     @Synchronized
+    @Suppress("DEPRECATION")
     @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun appendContents(sFileName: String, sContent: String, includeDate: Boolean, folderName: String, deleteFileIfExist: Boolean) {
 

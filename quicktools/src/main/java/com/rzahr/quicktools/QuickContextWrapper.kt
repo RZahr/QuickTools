@@ -40,7 +40,7 @@ class QuickContextWrapper(base: Context?): ContextWrapper(base) {
 
             @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) contextTemp =
-                contextTemp?.createConfigurationContext(config)
+                config?.let { contextTemp?.createConfigurationContext(it) }
             else contextTemp?.resources?.updateConfiguration(config, contextTemp.resources.displayMetrics)
 
             return QuickContextWrapper(contextTemp)

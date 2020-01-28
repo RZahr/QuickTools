@@ -1,7 +1,7 @@
 package com.rzahr.quicktools
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import javax.inject.Inject
 
 /**
@@ -103,7 +103,7 @@ class QuickPref @Inject constructor(val context: Context) {
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun get(id: String): String {
 
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(id, "")
+        return if (PreferenceManager.getDefaultSharedPreferences(context).getString(id, "") == null) "" else PreferenceManager.getDefaultSharedPreferences(context).getString(id, "")!!
     }
 
     /**

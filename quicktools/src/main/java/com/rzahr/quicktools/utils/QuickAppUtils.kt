@@ -8,6 +8,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.BatteryManager
 import android.os.Build
 import android.os.PowerManager
@@ -15,6 +16,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import com.rzahr.quicktools.*
 import com.rzahr.quicktools.extensions.addWithId
+import com.rzahr.quicktools.utils.QuickAppUtils.isOnline
 import java.util.*
 
 /**
@@ -41,13 +43,24 @@ object QuickAppUtils {
      * gets if the device has wifi or 3g
      * @return if the device is connected to a wifi or 3g
      */
+    @Suppress("DEPRECATION")
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun isOnline(): Boolean {
 
-        val networkInfo = (QuickInjectable.applicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+        val connectivityManager = (QuickInjectable.applicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
-        return networkInfo != null && networkInfo.isConnected
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)|| actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)-> true
+                else -> false
+            }
+        }
+        else return if (connectivityManager.activeNetworkInfo == null) false else connectivityManager.activeNetworkInfo!!.isConnected
     }
+
 
     /**
      * gets the battery level
@@ -221,7 +234,7 @@ object QuickAppUtils {
 
         if (Build.VERSION.SDK_INT > 20) tasksList = activityManager.runningAppProcesses
 
-         else {
+        else {
             try {
                 @Suppress("DEPRECATION")
                 tasksList = activityManager.getRunningTasks(1)
@@ -252,7 +265,7 @@ object QuickAppUtils {
 
                 Build.VERSION.SDK_INT > 20 -> return activityManager.runningAppProcesses[0].processName != QuickInjectable.applicationContext().packageName
 
-                else -> @Suppress("DEPRECATION") return activityManager.getRunningTasks(1)[0].topActivity.packageName != QuickInjectable.applicationContext().packageName
+                else -> @Suppress("DEPRECATION") return activityManager.getRunningTasks(1)[0].topActivity?.packageName != QuickInjectable.applicationContext().packageName
             }
         }
 

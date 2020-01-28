@@ -331,7 +331,7 @@ class QuickBaseClass {
         fun <T : ViewModel> setGVViewModel(savedInstanceState: Bundle?, modelClass: Class<T>, triggerRestoreState: Boolean = true) {
 
             @Suppress("UNCHECKED_CAST")
-            mViewModel = ViewModelProviders.of(this).get(modelClass) as VM
+            mViewModel = ViewModelProvider(this).get(modelClass) as VM
 
             lifecycle.addObserver(mViewModel!!)
 

@@ -51,7 +51,7 @@ class QuickBadgeDrawable constructor(backgroundColor: Int, textColor: Int, textS
         val textHeight = (mTxtRect.bottom - mTxtRect.top).toFloat()
         val textY = centerY + textHeight / 2f
         @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        canvas.drawText(mCount, centerX, textY, mTextPaint)
+        (mTextPaint?.let { canvas.drawText(mCount, centerX, textY, it) })
     }
 
     /*

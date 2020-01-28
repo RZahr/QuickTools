@@ -75,7 +75,7 @@ fun AppCompatActivity.createToolbar(title: String, subTitle: String, withNavigat
  */
 fun Activity.hideKeyboard() {
 
-    hideKeyboard(if (currentFocus == null) View(this) else currentFocus)
+    if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
 }
 
 /**

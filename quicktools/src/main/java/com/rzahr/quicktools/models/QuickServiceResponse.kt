@@ -16,8 +16,8 @@ class QuickServiceResponse(parcel: Parcel) : Parcelable {
     private var responseCode = 500
 
     init {
-        responseDetails = parcel.readString()
-        errorDetails = parcel.readString()
+        responseDetails = parcel.readString().toString()
+        errorDetails = parcel.readString().toString()
         responseCode = parcel.readInt()
     }
 
