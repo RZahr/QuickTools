@@ -32,17 +32,30 @@ object QuickLogWriter {
             arrayOf("", "", "")
         }
     }
-
+    @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun logErrorHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
         Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
         appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
     }
-
+    @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun logHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
         Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg)
         appendContents("$logFileNameTemp.txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
+    }
+
+
+    fun logErrorHelper(callingMethod: Array<String>, msg: String, filePath: String, error: String, deleteFileIfExist: Boolean) {
+
+        Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
+        appendContents(filePath, "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, deleteFileIfExist)
+    }
+
+    fun logHelper(callingMethod: Array<String>, msg: String, filePath: String, error: String, deleteFileIfExist: Boolean) {
+
+        Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg)
+        appendContents(filePath, "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, deleteFileIfExist)
     }
 
     /**
@@ -73,10 +86,36 @@ object QuickLogWriter {
     }
 
     @Synchronized
+    @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun appendContents(sFileName: String, sContent: String, includeDate: Boolean, folderName: String, deleteFileIfExist: Boolean) {
 
         try {
             val filePath = Environment.getExternalStorageDirectory().toString() + "/" + folderName + "/" + sFileName
+            val oFile = File(filePath)
+
+            if (deleteFileIfExist && oFile.exists()) oFile.delete()
+
+            if (!oFile.exists()) oFile.createNewFile()
+
+            if (oFile.canWrite()) {
+                val oWriter = BufferedWriter(FileWriter(File(filePath), true))
+                try {
+                    oWriter.newLine()
+                    if (includeDate) oWriter.write(" ###" + QuickDateUtils.getCurrentDate(true, QuickDateUtils.SLASHED_FORMAT) + ":" + sContent + " \n\r")
+                    else oWriter.write(sContent)
+                } finally {
+                    QuickUtils.safeCloseBufferedWriter(oWriter)
+                }
+            }
+        } catch (oException: IOException) {
+            Log.e(TAG, "Error in appendContents oException $oException")
+        }
+    }
+
+    @Synchronized
+    fun appendContents(filePath: String, sContent: String, includeDate: Boolean, deleteFileIfExist: Boolean) {
+
+        try {
             val oFile = File(filePath)
 
             if (deleteFileIfExist && oFile.exists()) oFile.delete()
