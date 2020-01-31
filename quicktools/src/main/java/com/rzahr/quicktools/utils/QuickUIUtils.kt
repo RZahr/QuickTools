@@ -246,7 +246,7 @@ object QuickUIUtils {
 
             if (positiveButtonText.isEmpty())  {
 
-                dialogView.admin_cancel_mb.rzSetVisibilityGone()
+                dialogView.admin_cancel_mb.rzSetVisibilityInvisible()
                 dialogView.admin_ok_mb.rzSetVisible()
 
                 dialogView.admin_ok_mb.text = negativeButtonTextTemp
@@ -393,7 +393,7 @@ object QuickUIUtils {
 
             if (positiveButtonText.isEmpty())  {
 
-                dialogView.admin_cancel_mb.rzSetVisibilityGone()
+                dialogView.admin_cancel_mb.rzSetVisibilityInvisible()
                 dialogView.admin_ok_mb.rzSetVisible()
 
                 dialogView.admin_ok_mb.text = negativeButtonTextTemp
