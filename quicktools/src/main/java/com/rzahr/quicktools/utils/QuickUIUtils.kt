@@ -180,7 +180,13 @@ object QuickUIUtils {
 
         var alert: AlertDialog? = null
 
-        if(!(context as Activity).isFinishing) alert = builder.show()
+//        if(!(context as Activity).isFinishing) alert = builder.show()
+        if(!(context as Activity).isFinishing) alert = builder.create()
+
+        // Let's start with animation work. We just need to create a style and use it here as follow.
+        if (alert?.window != null) alert.window?.attributes?.windowAnimations = R.style.SlidingDialogAnimation
+
+        if(!context.isFinishing) alert = builder.show()
 
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
