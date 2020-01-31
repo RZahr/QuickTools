@@ -111,14 +111,12 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog): Array<Any?> {
+    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog, withAnimation: Boolean = false): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         val dialogView = LayoutInflater.from(context).inflate(layout, null)
-        dialogView?.rzBottomOfFloat(300)
-            //  ?.mergeWith(dialogView?.rzVibrate(100))
-            ?.subscribe()
+        if (withAnimation)dialogView?.rzBottomOfFloat(300)?.subscribe()
         builder.setView(dialogView)
         builder.setCancelable(false)
 
@@ -176,12 +174,13 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false): Array<Any?> {
+    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false, withAnimation: Boolean = false): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_alert_dialog, null)
-        dialogView?.rzBottomOfFloat(300)
+
+       if (withAnimation) dialogView?.rzBottomOfFloat(300)
             //  ?.mergeWith(dialogView?.rzVibrate(100))
             ?.subscribe()
         builder.setView(dialogView)
@@ -247,9 +246,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, centerButton)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton, withAnimation)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
@@ -334,9 +333,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit, thirdAction: () -> Unit,
-                                 cancelable: Boolean = true, logo: Drawable? = null): AlertDialog? {
+                                 cancelable: Boolean = true, logo: Drawable? = null, withAnimation: Boolean = false): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert)
+        val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert, withAnimation)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
@@ -395,9 +394,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, centerButton)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton, withAnimation)
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
 
