@@ -116,6 +116,9 @@ object QuickUIUtils {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         val dialogView = LayoutInflater.from(context).inflate(layout, null)
+        dialogView?.rzBottomOfFloat(300)
+            //  ?.mergeWith(dialogView?.rzVibrate(100))
+            ?.subscribe()
         builder.setView(dialogView)
         builder.setCancelable(false)
 
@@ -131,13 +134,13 @@ object QuickUIUtils {
 
         var alert: AlertDialog? = null
 
-       // if(!(context as Activity).isFinishing) alert = builder.show()
-        if(!(context as Activity).isFinishing) alert = builder.create()
+        if(!(context as Activity).isFinishing) alert = builder.show()
+//        if(!(context as Activity).isFinishing) alert = builder.create()
 
         // Let's start with animation work. We just need to create a style and use it here as follow.
-        if (alert?.window != null) alert.window?.attributes?.windowAnimations = R.style.SlidingDialogAnimation
+//        if (alert?.window != null) alert.window?.attributes?.windowAnimations = R.style.SlidingDialogAnimation
 
-        if(!context.isFinishing) alert = builder.show()
+//        if(!context.isFinishing) alert = builder.show()
 
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -178,6 +181,9 @@ object QuickUIUtils {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_alert_dialog, null)
+        dialogView?.rzBottomOfFloat(300)
+            //  ?.mergeWith(dialogView?.rzVibrate(100))
+            ?.subscribe()
         builder.setView(dialogView)
         builder.setCancelable(false)
 
@@ -186,13 +192,13 @@ object QuickUIUtils {
 
         var alert: AlertDialog? = null
 
-//        if(!(context as Activity).isFinishing) alert = builder.show()
-        if(!(context as Activity).isFinishing) alert = builder.create()
+        if(!(context as Activity).isFinishing) alert = builder.show()
+//        if(!(context as Activity).isFinishing) alert = builder.create()
 
         // Let's start with animation work. We just need to create a style and use it here as follow.
-        if (alert?.window != null) alert.window?.attributes?.windowAnimations = R.style.SlidingDialogAnimation
+//        if (alert?.window != null) alert.window?.attributes?.windowAnimations = R.style.SlidingDialogAnimation
 
-        if(!context.isFinishing) alert = builder.show()
+//        if(!context.isFinishing) alert = builder.show()
 
         alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

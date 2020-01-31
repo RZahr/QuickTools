@@ -146,6 +146,29 @@ fun View.rzSetVisible() {
     this.visibility = View.VISIBLE
 }
 
+fun View.rzBottomOfFloat(durationn: Long): Completable {
+    val animationSubject = CompletableSubject.create()
+    return animationSubject.doOnSubscribe {
+        ObjectAnimator.ofFloat(this, "translationY", 50f,0f,-50f,0f).apply {
+            duration = durationn
+            start()
+            animationSubject.onComplete()
+        }
+    }
+}
+
+fun View.rzVibrate(durationn: Long, repeat: Int = 1): Completable {
+    val animationSubject = CompletableSubject.create()
+    return animationSubject.doOnSubscribe {
+        ObjectAnimator.ofFloat(this, "rotation", 0f, 20f, 0f, -20f, 0f).apply {
+            duration = durationn
+            repeatCount = repeat
+            start()
+            animationSubject.onComplete()
+        }
+    }
+}
+
 fun View.rzFadeIn(duration: Long): Completable {
     this.alpha = 0f
     val animationSubject = CompletableSubject.create()
