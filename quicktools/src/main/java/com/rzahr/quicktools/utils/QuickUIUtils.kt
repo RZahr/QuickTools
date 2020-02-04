@@ -246,12 +246,18 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false): AlertDialog? {
 
         val a = createCustomAlert(title, message, cancelable, context, centerButton, R.layout.custom_alert_dialog, withAnimation)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
+
+
+        if (redAlert){
+            dialogView.main_layout_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.alert_description_tv.setTextColor(Color.WHITE)
+        }
 
         // if the alert has a negative button then set it
         if (hasNegativeButton) {
@@ -394,11 +400,16 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false): AlertDialog? {
 
         val a = createCustomAlert(title, message, cancelable, context, centerButton, withAnimation)
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
+
+        if (redAlert){
+            dialogView.main_layout_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.alert_description_tv.setTextColor(Color.WHITE)
+        }
 
         // if the alert has a negative button then set it
         if (hasNegativeButton) {
