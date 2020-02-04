@@ -255,7 +255,7 @@ object QuickUIUtils {
 
 
         if (redAlert){
-            dialogView.main_layout_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.main_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
             dialogView.alert_description_tv.setTextColor(Color.WHITE)
         }
 
@@ -407,7 +407,7 @@ object QuickUIUtils {
         val alert = a[2] as AlertDialog?
 
         if (redAlert){
-            dialogView.main_layout_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.main_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
             dialogView.alert_description_tv.setTextColor(Color.WHITE)
         }
 
