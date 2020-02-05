@@ -138,7 +138,7 @@ object QuickUIUtils {
 
         if(!(context as Activity).isFinishing) alert = builder.show()
 
-       // alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         if (cancelable) {
 
@@ -191,7 +191,7 @@ object QuickUIUtils {
 
         if(!(context as Activity).isFinishing) alert = builder.show()
 
-       // alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alert?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         if (cancelable) {
 
