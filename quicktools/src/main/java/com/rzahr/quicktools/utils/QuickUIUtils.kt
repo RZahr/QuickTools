@@ -116,7 +116,10 @@ object QuickUIUtils {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-        val dialogView = LayoutInflater.from(context).inflate(layout, null)
+       // val dialogView = LayoutInflater.from(context).inflate(layout, null)
+
+        val dialogView = if (redAlert) LayoutInflater.from(context).inflate(R.layout.custom_red_alert_dialog, null) else LayoutInflater.from(context).inflate(layout, null)
+
         if (withAnimation)dialogView?.rzBottomOfFloat(300)?.subscribe()
         builder.setView(dialogView)
         builder.setCancelable(false)
