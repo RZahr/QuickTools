@@ -11,6 +11,7 @@
             android:scaleType="centerInside"
             android:id="@+id/alert_iv"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:background="@color/transparent"
             android:alpha="0.8"/>
 
@@ -18,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="#FF9800"
+            android:textColor="@color/white"
+            tools:text="test"
             android:layout_marginBottom="@dimen/general_margin"
             android:textStyle="bold"/>
 
@@ -48,17 +50,17 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/admin_cancel_mb"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:visibility="invisible"
                 android:layout_margin="@dimen/general_margin"
-                android:visibility="invisible"/>
+                />
 
         <com.google.android.material.button.MaterialButton android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/admin_ok_mb"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_margin="@dimen/general_margin"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                />
 
     </LinearLayout>
 
