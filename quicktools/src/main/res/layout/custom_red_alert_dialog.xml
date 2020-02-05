@@ -4,7 +4,7 @@
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:background="@drawable/dialog_bg">
+        android:background="@drawable/dialog_alert_bg">
 
     <ImageView android:layout_width="wrap_content"
             android:layout_height="60dp"
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="test"
+            android:textColor="@color/white"
             android:layout_marginLeft="@dimen/general_margin"
             android:layout_marginRight="@dimen/general_margin"
             android:layout_marginBottom="@dimen/general_margin_double"/>
