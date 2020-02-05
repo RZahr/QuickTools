@@ -18,6 +18,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.rzahr.quicktools.*
@@ -255,7 +256,7 @@ object QuickUIUtils {
 
 
         if (redAlert){
-            dialogView.main_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.main_ll.setBackground(ContextCompat.getDrawable(context, R.drawable.dialog_alert_bg))
             dialogView.alert_description_tv.setTextColor(Color.WHITE)
         }
 
@@ -407,7 +408,7 @@ object QuickUIUtils {
         val alert = a[2] as AlertDialog?
 
         if (redAlert){
-            dialogView.main_ll.setBackgroundResource(R.drawable.dialog_alert_bg)
+            dialogView.main_ll.setBackground(ContextCompat.getDrawable(context, R.drawable.dialog_alert_bg))
             dialogView.alert_description_tv.setTextColor(Color.WHITE)
         }
 
