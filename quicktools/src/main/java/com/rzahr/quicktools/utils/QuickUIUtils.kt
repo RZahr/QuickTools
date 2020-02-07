@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -19,6 +20,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.rzahr.quicktools.*
@@ -112,7 +114,7 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog, withAnimation: Boolean, redAlert: Boolean): Array<Any?> {
+    private fun createCustomAlert(title: String, message: String, cancelable: Boolean, context: Context, center: Boolean = false, layout: Int = R.layout.custom_alert_dialog, withAnimation: Boolean, redAlert: Boolean, iconTint: Int): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -135,6 +137,8 @@ object QuickUIUtils {
         }
 
         var alert: AlertDialog? = null
+
+        if (iconTint != - 1) ImageViewCompat.setImageTintList(dialogView.alert_iv, ColorStateList.valueOf(iconTint))
 
         if(!(context as Activity).isFinishing) alert = builder.show()
 
@@ -172,7 +176,7 @@ object QuickUIUtils {
     }
 
     @SuppressLint("InflateParams")
-    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false, withAnimation: Boolean, redAlert: Boolean): Array<Any?> {
+    private fun createCustomAlert(title: String, message: Spanned, cancelable: Boolean, context: Context, center: Boolean = false, withAnimation: Boolean, redAlert: Boolean, iconTint: Int): Array<Any?> {
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
@@ -188,6 +192,9 @@ object QuickUIUtils {
         dialogView.alert_description_tv.text = message
 
         var alert: AlertDialog? = null
+
+        if (iconTint != - 1) ImageViewCompat.setImageTintList( dialogView.alert_iv, ColorStateList.valueOf(iconTint))
+
 
         if(!(context as Activity).isFinishing) alert = builder.show()
 
@@ -238,9 +245,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false, iconTint: Int = -1): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, centerButton, R.layout.custom_alert_dialog, withAnimation, redAlert)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton, R.layout.custom_alert_dialog, withAnimation, redAlert, iconTint)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
@@ -326,9 +333,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createThreeOptionedAlert(title: String, message: String, negativeButtonText: String, positiveButtonText: String, thirdButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit, thirdAction: () -> Unit,
-                                 cancelable: Boolean = true, logo: Drawable? = null, withAnimation: Boolean = false, redAlert: Boolean = false): AlertDialog? {
+                                 cancelable: Boolean = true, logo: Drawable? = null, withAnimation: Boolean = false, redAlert: Boolean = false, iconTint: Int = -1): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert, withAnimation,redAlert)
+        val a = createCustomAlert(title, message, cancelable, context, false, R.layout.custom_three_option_alert, withAnimation,redAlert, iconTint)
         // create the alert dialog and set it to cancellable or not depending on what was supplied
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
@@ -387,9 +394,9 @@ object QuickUIUtils {
      * @param logo: the optional logo icon
      */
     fun createQuickAlert(title: String, message: Spanned, negativeButtonText: String, positiveButtonText: String, context: Context, positiveAction: () -> Unit, negativeAction: () -> Unit,
-                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false): AlertDialog? {
+                         hasNegativeButton: Boolean = true, cancelable: Boolean = true, logo: Drawable? = null, centerButton: Boolean = false, withAnimation: Boolean = false, redAlert: Boolean = false, iconTint: Int = -1): AlertDialog? {
 
-        val a = createCustomAlert(title, message, cancelable, context, centerButton, withAnimation, redAlert)
+        val a = createCustomAlert(title, message, cancelable, context, centerButton, withAnimation, redAlert, iconTint)
         val dialogView = a[1] as View
         val alert = a[2] as AlertDialog?
 
