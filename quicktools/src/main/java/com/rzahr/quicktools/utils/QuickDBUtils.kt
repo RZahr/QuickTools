@@ -54,11 +54,11 @@ object QuickDBUtils {
 
         var query = "SELECT $columns FROM $table "
 
-        for (join in joins) query += "LEFT OUTER JOIN $join "
+        for (join in joins) query += " LEFT OUTER JOIN $join "
 
-        if (whereClause.isNotEmpty()) query+= "WHERE $whereClause"
+        if (whereClause.isNotEmpty()) query+= " WHERE $whereClause"
 
-        if (groupByClause.isNotEmpty()) query+= "GROUP BY $groupByClause"
+        if (groupByClause.isNotEmpty()) query+= " GROUP BY $groupByClause"
 
         QuickLogWriter.debugLogging(query)
 
