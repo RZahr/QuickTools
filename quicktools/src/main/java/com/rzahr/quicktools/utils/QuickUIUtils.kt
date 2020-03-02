@@ -138,7 +138,7 @@ object QuickUIUtils {
 
         var alert: AlertDialog? = null
 
-        if (iconTint != - 1) ImageViewCompat.setImageTintList(dialogView.alert_iv, ColorStateList.valueOf(iconTint))
+        if (iconTint != - 1) try {ImageViewCompat.setImageTintList(dialogView.alert_iv, ColorStateList.valueOf(iconTint)) } catch (e: java.lang.Exception) {}
 
         if(!(context as Activity).isFinishing) alert = builder.show()
 
@@ -193,7 +193,7 @@ object QuickUIUtils {
 
         var alert: AlertDialog? = null
 
-        if (iconTint != - 1) ImageViewCompat.setImageTintList( dialogView.alert_iv, ColorStateList.valueOf(iconTint))
+        if (iconTint != - 1) try {ImageViewCompat.setImageTintList( dialogView.alert_iv, ColorStateList.valueOf(iconTint))} catch (e: java.lang.Exception) {}
 
 
         if(!(context as Activity).isFinishing) alert = builder.show()
@@ -297,7 +297,7 @@ object QuickUIUtils {
         if (logo != null) {
 
             dialogView.alert_iv.rzSetVisible()
-            dialogView.alert_iv.setImageDrawable(logo)
+            try {dialogView.alert_iv.setImageDrawable(logo)} catch (e: Exception) {}
         }
 
         // if the alert has a positive button (the positive button text is not empty) then set the positive button action to the action supplied
@@ -446,7 +446,7 @@ object QuickUIUtils {
         if (logo != null) {
 
             dialogView.alert_iv.rzSetVisible()
-            dialogView.alert_iv.setImageDrawable(logo)
+            try {dialogView.alert_iv.setImageDrawable(logo)} catch (e: java.lang.Exception) {}
         }
 
         // if the alert has a positive button (the positive button text is not empty) then set the positive button action to the action supplied
