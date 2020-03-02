@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.os.Build
 import android.text.Spanned
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -120,7 +121,8 @@ object QuickUIUtils {
 
        // val dialogView = LayoutInflater.from(context).inflate(layout, null)
 
-        val dialogView = if (redAlert) LayoutInflater.from(context).inflate(R.layout.custom_red_alert_dialog, null) else LayoutInflater.from(context).inflate(layout, null)
+        val dialogView = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) if (redAlert) LayoutInflater.from(context).inflate(R.layout.custom_red_alert_dialog, null) else LayoutInflater.from(context).inflate(layout, null)
+        else if (redAlert) LayoutInflater.from(context).inflate(R.layout.custom_red_alert_dialog_old, null) else if (layout == R.layout.custom_alert_dialog) LayoutInflater.from(context).inflate(R.layout.custom_alert_dialog_old, null) else LayoutInflater.from(context).inflate(layout, null)
 
         if (withAnimation)dialogView?.rzBottomOfFloat(300)?.subscribe()
         builder.setView(dialogView)
