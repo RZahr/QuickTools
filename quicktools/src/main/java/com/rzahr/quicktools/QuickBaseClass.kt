@@ -153,7 +153,7 @@ class QuickBaseClass {
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
                     overrideConfiguration.setTo(baseContext.resources.configuration)
@@ -251,7 +251,7 @@ class QuickBaseClass {
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
                     overrideConfiguration.setTo(baseContext.resources.configuration)

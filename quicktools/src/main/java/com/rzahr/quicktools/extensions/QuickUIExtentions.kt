@@ -106,44 +106,44 @@ fun MaterialButton.rzBackgroundColor(color: Int) {
 /**
  * show or hide a view
  */
-fun View.rzHideShow() {
+fun View?.rzHideShow() {
 
-    if (this.visibility == View.VISIBLE) this.visibility = View.GONE
+    if (this?.visibility == View.VISIBLE) this.visibility = View.GONE
 
-    else this.visibility = View.VISIBLE
+    else this?.visibility = View.VISIBLE
 }
 
 /**
  * sets view visibility to gone
  */
-fun View.rzSetVisibilityGone() {
+fun View?.rzSetVisibilityGone() {
 
-    this.visibility = View.GONE
+    this?.visibility = View.GONE
 }
 
 /**
  * sets view visibility to invisible
  */
-fun View.rzSetVisibilityInvisible() {
+fun View?.rzSetVisibilityInvisible() {
 
-    this.visibility = View.INVISIBLE
+    this?.visibility = View.INVISIBLE
 }
 
 /**
  * returns true if the view is visible
  * @return boolean value representing if the view is visible or not
  */
-fun View.rzVisible(): Boolean {
+fun View?.rzVisible(): Boolean {
 
-    return this.visibility == View.VISIBLE
+    return this?.visibility == View.VISIBLE
 }
 
 /**
  * sets view visibility to visible
  */
-fun View.rzSetVisible() {
+fun View?.rzSetVisible() {
 
-    this.visibility = View.VISIBLE
+    this?.visibility = View.VISIBLE
 }
 
 fun View.rzBottomOfFloat(durationn: Long): Completable {
@@ -196,9 +196,9 @@ fun View.rzOfFloat(durationn: Long): Completable {
 /**
  * click listener with a guard to prevent rapid clicks
  */
-fun View.rzClickListener(clickGuard: QuickClickGuard, action: () -> Unit) {
+fun View?.rzClickListener(clickGuard: QuickClickGuard, action: () -> Unit) {
 
-    this.setOnClickListener {
+    this?.setOnClickListener {
 
         clickGuard.guard { action() }
     }
