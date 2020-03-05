@@ -33,10 +33,7 @@ object QuickAppUtils {
      */
     fun getWrapper(newBase: Context?): ContextWrapper? {
 
-        return QuickContextWrapper.wrap(
-            newBase,
-            QuickInjectable.pref().get("Language")
-        )
+        return QuickContextWrapper.wrap(newBase, QuickInjectable.pref().get("Language"))
     }
 
     /**
