@@ -30,7 +30,7 @@ fun NotificationCompat.Builder.setSoundAndVibrate() {
     this.setLights(Color.GREEN, 3000, 3000)
     this.setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
 
-    this.setDefaults(Notification.DEFAULT_ALL)
+    //this.setDefaults(Notification.DEFAULT_ALL)
 }
 
 /**
