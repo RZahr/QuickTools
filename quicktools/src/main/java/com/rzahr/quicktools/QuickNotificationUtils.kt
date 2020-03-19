@@ -28,13 +28,14 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
      */
     fun initializer(channelId: String, channelName: String, channelDescription: String, enableLight: Boolean = true, enableVibration: Boolean = true, @SuppressLint(
         "InlinedApi"
-    ) lockScreenVisibility: Int = Notification.VISIBILITY_PUBLIC, @SuppressLint("InlinedApi") importance: Int = NotificationManager.IMPORTANCE_DEFAULT) {
+    ) lockScreenVisibility: Int = Notification.VISIBILITY_PUBLIC, @SuppressLint("InlinedApi") importance: Int = NotificationManager.IMPORTANCE_DEFAULT, withSound: Boolean = false) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannel(channelId, channelName, channelDescription, enableLight, enableVibration, lockScreenVisibility, importance)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannel(channelId, channelName, channelDescription, enableLight, enableVibration, lockScreenVisibility, importance, withSound)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createChannel(channelId: String, channelName: String, channelDescription: String, enableLight: Boolean, enableVibration: Boolean, lockScreenVisibility: Int, importance: Int) {
+    private fun createChannel(channelId: String, channelName: String, channelDescription: String, enableLight: Boolean, enableVibration: Boolean,
+                              lockScreenVisibility: Int, importance: Int, withSound: Boolean) {
 
         if (getManager()!!.getNotificationChannel(channelId) != null) {
             return
@@ -49,7 +50,8 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
         notificationChannel.enableVibration(enableVibration)
         notificationChannel.lightColor = Color.GRAY
         notificationChannel.lockscreenVisibility = lockScreenVisibility
-        notificationChannel.setSound(null, null)
+
+        if (!withSound) notificationChannel.setSound(null, null)
 
         getManager()!!.createNotificationChannel(notificationChannel)
     }

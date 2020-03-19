@@ -25,12 +25,12 @@ fun NotificationCompat.Builder.setSoundAndVibrate() {
 
     this.priority = NotificationCompat.PRIORITY_HIGH   // heads-up
 
-    /*val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     this.setSound(alarmSound)
     this.setLights(Color.GREEN, 3000, 3000)
-    this.setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))*/
+    this.setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
 
-    //this.setDefaults(Notification.DEFAULT_ALL)
+    this.setDefaults(Notification.DEFAULT_ALL)
 }
 
 /**
