@@ -55,7 +55,11 @@ object QuickAppUtils {
                 else -> false
             }
         }
-        else return if (connectivityManager.activeNetworkInfo == null) false else connectivityManager.activeNetworkInfo!!.isConnected
+        else try {
+            return if (connectivityManager.activeNetworkInfo == null) false else connectivityManager.activeNetworkInfo.isConnected
+        }catch (e: Exception) {
+            return true
+        }
     }
 
 
