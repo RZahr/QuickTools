@@ -2,6 +2,7 @@
 
 package com.rzahr.quicktools.extensions
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
@@ -82,6 +83,7 @@ fun Activity.hideKeyboard() {
  * lock the activity orientation in landscape or portrait
  * @param currentOrientation: the current orientation mode that will be locked in
  */
+@SuppressLint("SourceLockedOrientationActivity")
 fun Activity.lockOrientation(currentOrientation: Int = this.resources.configuration.orientation) {
 
     if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
@@ -100,7 +102,7 @@ fun Activity.unLockOrientation() {
 /**
  * show the hidden toolbar in the activity
  */
-fun Activity.showToolbar() {
+fun AppCompatActivity?.showToolbar() {
 
-    (this as AppCompatActivity).supportActionBar!!.show()
+    this?.supportActionBar!!.show()
 }
