@@ -102,7 +102,7 @@ fun Activity.unLockOrientation() {
 /**
  * show the hidden toolbar in the activity
  */
-fun AppCompatActivity?.showToolbar() {
+fun Activity?.showToolbar() {
 
-    this?.supportActionBar!!.show()
+    (this as AppCompatActivity?)?.supportActionBar!!.show()
 }
