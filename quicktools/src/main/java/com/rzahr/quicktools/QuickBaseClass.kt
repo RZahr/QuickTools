@@ -20,6 +20,7 @@ import com.rzahr.quicktools.extensions.lockOrientation
 import com.rzahr.quicktools.extensions.showToolbar
 import com.rzahr.quicktools.extensions.unLockOrientation
 import com.rzahr.quicktools.utils.QuickDBUtils
+import java.lang.Exception
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -149,7 +150,15 @@ class QuickBaseClass {
         @Inject lateinit var mClickGuard: QuickClickGuard
 
         override fun attachBaseContext(newBase: Context?) {
-            super.attachBaseContext(QuickContextWrapper.wrap(newBase,QuickInjectable.pref().get("Language")))
+            try {
+                super.attachBaseContext(
+                    QuickContextWrapper.wrap(
+                        newBase,
+                        QuickInjectable.pref().get("Language")
+                    )
+                )
+            }
+            catch (e: Exception) { super.attachBaseContext(newBase)}
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {

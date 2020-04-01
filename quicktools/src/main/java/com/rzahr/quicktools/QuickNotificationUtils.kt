@@ -75,6 +75,15 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
     }
 
     fun getNotificationBuilder(title: String, body: String, onGoing: Boolean, smallIcon: Int, id: String, logo: Int?): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context, id)
+            .setSmallIcon(smallIcon)
+            .setBadgeIconType(smallIcon)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setOngoing(onGoing)
+            .setAutoCancel(!onGoing)
+            .setWhen(System.currentTimeMillis())
+
         if (logo != null) {
             val largeIcon = BitmapFactory.decodeResource(
                 context.resources,
@@ -99,5 +108,7 @@ class QuickNotificationUtils @Inject constructor(val context: Context) : Context
             .setOngoing(onGoing)
             .setAutoCancel(!onGoing)
             .setWhen(System.currentTimeMillis())
+
+
     }
 }
