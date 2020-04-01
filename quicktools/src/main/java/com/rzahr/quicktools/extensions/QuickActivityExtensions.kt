@@ -57,13 +57,13 @@ fun AppCompatActivity.createToolbar(title: String, subTitle: String, withNavigat
         subTitleTextView.visibility = View.VISIBLE
     }
 
-    if (withNavigation!! && this.supportActionBar != null) this.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    if (withNavigation!! && this.supportActionBar != null) this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     if (withLogo!!) {
 
         val imageLogo = toolbar.findViewById(logoImage) as ImageView
 
-        if (this.supportActionBar != null) this.supportActionBar!!.setDisplayShowTitleEnabled(false)
+        if (this.supportActionBar != null) this.supportActionBar?.setDisplayShowTitleEnabled(false)
 
         imageLogo.visibility = View.VISIBLE
 
@@ -104,5 +104,5 @@ fun Activity.unLockOrientation() {
  */
 fun Activity?.showToolbar() {
 
-    (this as AppCompatActivity?)?.supportActionBar!!.show()
+    (this as AppCompatActivity?)?.supportActionBar?.show()
 }
