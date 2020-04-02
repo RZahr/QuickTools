@@ -15,7 +15,8 @@ import javax.inject.Inject
 @Suppress("unused")
 class QuickInjectable @Inject constructor(var quickPref: QuickPref, val clickGuard: QuickClickGuard, application: Application) {
 
-    val mQuickActivityLifecycleCallbacks = QuickActivityLifeCycleCallbacks()
+    //val mQuickActivityLifecycleCallbacks = QuickActivityLifeCycleCallbacks()
+    val mQuickActivityLifecycleCallbacks = QuickActivityLifeCycleCallbacksNew()
     lateinit var mApplication: Application
 
     init {
@@ -51,7 +52,8 @@ class QuickInjectable @Inject constructor(var quickPref: QuickPref, val clickGua
 
         fun currentActivity(): Activity? {
 
-            return instance!!.mQuickActivityLifecycleCallbacks.currentActivity
+            //return instance?.mQuickActivityLifecycleCallbacks?.currentActivity?
+            return instance?.mQuickActivityLifecycleCallbacks?.currentActivity?.get()
         }
 
         fun applicationContext() : Context {
