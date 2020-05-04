@@ -64,10 +64,13 @@ public class QuickDrawableImageView extends AppCompatImageView implements View.O
     }
 
     public void clearImage(Bitmap originalBitmap, Bitmap bmp) {
-        canvas = new Canvas(originalBitmap);
-        canvas.drawBitmap(bmp, matrix, paint);
+        try {
+            canvas = new Canvas(originalBitmap);
+            canvas.drawBitmap(bmp, matrix, paint);
 
-        setImageBitmap(originalBitmap);
+            setImageBitmap(originalBitmap);
+        }
+        catch (Exception ignored){}
     }
 
     @Override

@@ -37,27 +37,27 @@ object QuickLogWriter {
     fun logErrorHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
         Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
-        appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
+        appendContents(QuickInjectable.pref().get(logFileNameTemp) + ".txt", callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, folderName, deleteFileIfExist)
     }
     @Suppress("DEPRECATION")
     @Deprecated("Uses Environment.getExternalStorageDirectory().toString() as the file path which is deprecated")
     fun logHelper(callingMethod: Array<String>, msg: String, logFileNameTemp: String, error: String, folderName: String, deleteFileIfExist: Boolean) {
 
         Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg)
-        appendContents("$logFileNameTemp.txt", "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
+        appendContents("$logFileNameTemp.txt", callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, folderName, deleteFileIfExist)
     }
 
 
     fun logErrorHelper(callingMethod: Array<String>, msg: String, filePath: String, error: String, deleteFileIfExist: Boolean) {
 
         Log.e(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg + " //**//Error: " + error)
-        appendContents(filePath, "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, deleteFileIfExist)
+        appendContents(filePath, callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg + " //**//Error: " + error + " \n",true, deleteFileIfExist)
     }
 
     fun logHelper(callingMethod: Array<String>, msg: String, filePath: String, error: String, deleteFileIfExist: Boolean) {
 
         Log.w(callingMethod[1] + " (" + callingMethod[0] + ")", "Func: " + callingMethod[2] + " Msg: " + msg)
-        appendContents(filePath, "Class: " + callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, deleteFileIfExist)
+        appendContents(filePath, callingMethod[1] + "         Func: " + callingMethod[2] + " Line No. " + callingMethod[0] + " Msg: " + msg +error+ " \n",true, deleteFileIfExist)
     }
 
     /**
