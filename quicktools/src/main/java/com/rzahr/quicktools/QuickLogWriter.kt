@@ -74,7 +74,7 @@ object QuickLogWriter {
         try {
             for (stack in Thread.currentThread().stackTrace) {
 
-                if (stack.className.contains(QuickInjectable.applicationContext().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
+                if (stack.className.contains(QuickInjectable.applicationContext2().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
 
                     level = Thread.currentThread().stackTrace.indexOf(stack)
                     break
@@ -153,7 +153,7 @@ object QuickLogWriter {
             try {
                 for (stack in Thread.currentThread().stackTrace) {
 
-                    if (stack.className.contains(QuickInjectable.applicationContext().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
+                    if (stack.className.contains(QuickInjectable.applicationContext2().packageName, ignoreCase = true) && !stack.className.contains(this.javaClass.name, ignoreCase = true)) {
 
                         level = Thread.currentThread().stackTrace.indexOf(stack)
                         break

@@ -79,7 +79,7 @@ fun <T : Parcelable> Bundle?.getStateOf(id: String): ArrayList<T>? {
  */
 fun File.getFileURI(): Uri {
 
-    return if (Build.VERSION.SDK_INT >= 24) FileProvider.getUriForFile(QuickInjectable.applicationContext(), QuickInjectable.applicationContext().applicationContext.packageName + ".provider", this) else Uri.fromFile(this)
+    return if (Build.VERSION.SDK_INT >= 24) FileProvider.getUriForFile(QuickInjectable.applicationContext2(), QuickInjectable.applicationContext2().applicationContext.packageName + ".provider", this) else Uri.fromFile(this)
 }
 
 /**

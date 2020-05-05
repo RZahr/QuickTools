@@ -61,7 +61,7 @@ object QuickUtils {
      */
     fun vibrateDevice(milliseconds: Long = 200, @SuppressLint("InlinedApi") amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
 
-        val vibrator = QuickInjectable.applicationContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = QuickInjectable.applicationContext2().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, amplitude))
@@ -122,7 +122,7 @@ object QuickUtils {
 
         try {
 
-            (QuickInjectable.applicationContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId.hashCode())
+            (QuickInjectable.applicationContext2().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId.hashCode())
         }
 
         catch (e:Exception) {

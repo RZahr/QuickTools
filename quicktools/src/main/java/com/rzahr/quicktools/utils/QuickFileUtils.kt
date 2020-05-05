@@ -94,7 +94,7 @@ object QuickFileUtils {
         if (success) {
 
             val noMedia = File(
-                "$path/" + QuickInjectable.applicationContext().resources.getString(
+                "$path/" + QuickInjectable.applicationContext2().resources.getString(
                     R.string.NO_MEDIA
                 ))
 

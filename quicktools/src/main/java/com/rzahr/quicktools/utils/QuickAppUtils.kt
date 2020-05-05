@@ -44,7 +44,7 @@ object QuickAppUtils {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun isOnline(): Boolean {
 
-        val connectivityManager = (QuickInjectable.applicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+        val connectivityManager = (QuickInjectable.applicationContext2().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -71,7 +71,7 @@ object QuickAppUtils {
 
         return try {
 
-            val batteryIntent = QuickInjectable.applicationContext()
+            val batteryIntent = QuickInjectable.applicationContext2()
                 .registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
             val batteryLevel = batteryIntent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
             val batteryScale = batteryIntent?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: -1
@@ -93,7 +93,7 @@ object QuickAppUtils {
 
         try {
 
-            val plugged = QuickInjectable.applicationContext().registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))?.getIntExtra(
+            val plugged = QuickInjectable.applicationContext2().registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))?.getIntExtra(
                 BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
             return plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS
@@ -114,8 +114,8 @@ object QuickAppUtils {
     fun getLanguageIdentifier(): String {
 
         @Suppress("DEPRECATION") val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            QuickInjectable.applicationContext().resources.configuration.locales.get(0)
-        else QuickInjectable.applicationContext().resources.configuration.locale
+            QuickInjectable.applicationContext2().resources.configuration.locales.get(0)
+        else QuickInjectable.applicationContext2().resources.configuration.locale
 
         return if (locale.toString() == "l" || locale.toString() == "en_US" || locale.toString().contains("en", true))
             QuickVariables.ENGLISH_LANG_KEY
@@ -128,8 +128,8 @@ object QuickAppUtils {
      */
     fun isInDozeWhiteList(): Boolean? {
 
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) true else QuickInjectable.applicationContext().getSystemService(PowerManager::class.java).isIgnoringBatteryOptimizations(
-            QuickInjectable.applicationContext().packageName)
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) true else QuickInjectable.applicationContext2().getSystemService(PowerManager::class.java).isIgnoringBatteryOptimizations(
+            QuickInjectable.applicationContext2().packageName)
     }
 
     /**
@@ -139,7 +139,7 @@ object QuickAppUtils {
     fun isPowerSaverOn(): Boolean {
 
         return  Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                (QuickInjectable.applicationContext().getSystemService(Context.POWER_SERVICE) as PowerManager).isPowerSaveMode
+                (QuickInjectable.applicationContext2().getSystemService(Context.POWER_SERVICE) as PowerManager).isPowerSaveMode
     }
 
     /**
@@ -148,7 +148,7 @@ object QuickAppUtils {
      */
     fun isScreenOn(): Boolean {
 
-        val powerManager = QuickInjectable.applicationContext().getSystemService(Context.POWER_SERVICE) as PowerManager
+        val powerManager = QuickInjectable.applicationContext2().getSystemService(Context.POWER_SERVICE) as PowerManager
         @Suppress("DEPRECATION")
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH &&
                 powerManager.isInteractive || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH &&
@@ -196,7 +196,7 @@ object QuickAppUtils {
 
         if (QuickVariables.UUID == "")
             QuickVariables.UUID = Settings.Secure.getString(
-                QuickInjectable.applicationContext().contentResolver,
+                QuickInjectable.applicationContext2().contentResolver,
                 Settings.Secure.ANDROID_ID
             )
         return QuickVariables.UUID
@@ -211,8 +211,8 @@ object QuickAppUtils {
 
         if (directRequest) {
             return try {
-                val version = QuickInjectable.applicationContext()
-                    .packageManager.getPackageInfo(QuickInjectable.applicationContext().packageName, 0).versionName
+                val version = QuickInjectable.applicationContext2()
+                    .packageManager.getPackageInfo(QuickInjectable.applicationContext2().packageName, 0).versionName
                 version.addWithId(QuickVariables.VERSION_NAME)
                 version
             } catch (e: Exception) {
@@ -231,7 +231,7 @@ object QuickAppUtils {
 
         var isInBackground = true
         var tasksList: List<*>? = null
-        val activityManager = QuickInjectable.applicationContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = QuickInjectable.applicationContext2().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
         if (Build.VERSION.SDK_INT > 20) tasksList = activityManager.runningAppProcesses
 
@@ -256,7 +256,7 @@ object QuickAppUtils {
 
                             for (activeProcess in processInfo.pkgList) {
 
-                                if (activeProcess == QuickInjectable.applicationContext().packageName) isInBackground = false
+                                if (activeProcess == QuickInjectable.applicationContext2().packageName) isInBackground = false
                             }
                         }
                     }
@@ -264,9 +264,9 @@ object QuickAppUtils {
                     return isInBackground
                 }
 
-                Build.VERSION.SDK_INT > 20 -> return activityManager.runningAppProcesses[0].processName != QuickInjectable.applicationContext().packageName
+                Build.VERSION.SDK_INT > 20 -> return activityManager.runningAppProcesses[0].processName != QuickInjectable.applicationContext2().packageName
 
-                else -> @Suppress("DEPRECATION") return activityManager.getRunningTasks(1)[0].topActivity?.packageName != QuickInjectable.applicationContext().packageName
+                else -> @Suppress("DEPRECATION") return activityManager.getRunningTasks(1)[0].topActivity?.packageName != QuickInjectable.applicationContext2().packageName
             }
         }
 

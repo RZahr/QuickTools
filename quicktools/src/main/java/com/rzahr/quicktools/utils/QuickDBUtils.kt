@@ -90,15 +90,15 @@ object QuickDBUtils {
     fun databaseExist(): Boolean {
 
         val dbName = "Database.db"
-        return if (QuickInjectable.applicationContext().getDatabasePath(dbName).exists()) true
+        return if (QuickInjectable.applicationContext2().getDatabasePath(dbName).exists()) true
 
         else {
 
-            if (!Arrays.asList(*QuickInjectable.applicationContext().assets.list("")).contains(dbName)) return false
+            if (!Arrays.asList(*QuickInjectable.applicationContext2().assets.list("")).contains(dbName)) return false
 
             QuickFileUtils.createDirectory(getDBPath(), false)
 
-            val inputStream = QuickInjectable.applicationContext().assets.open(dbName)
+            val inputStream = QuickInjectable.applicationContext2().assets.open(dbName)
             val out = FileOutputStream(File(getDBPath() + dbName))
             val buf = ByteArray(1024)
             while (inputStream.read(buf) > 0) out.write(buf)
@@ -154,6 +154,6 @@ object QuickDBUtils {
      */
     fun getDBPath(): String {
 
-        return QuickInjectable.applicationContext().applicationInfo.dataDir + "/databases/"
+        return QuickInjectable.applicationContext2().applicationInfo.dataDir + "/databases/"
     }
 }
