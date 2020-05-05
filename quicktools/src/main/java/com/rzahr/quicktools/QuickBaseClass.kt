@@ -91,7 +91,7 @@ class QuickBaseClass {
 
         fun getString(id: Int): String {
 
-            return id.get(mContext)
+            return id.get(mActivity)
         }
 
         override fun attachView(view: V) {
