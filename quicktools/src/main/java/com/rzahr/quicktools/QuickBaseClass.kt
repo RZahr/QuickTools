@@ -162,13 +162,13 @@ class QuickBaseClass {
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            //if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
                     overrideConfiguration.setTo(baseContext.resources.configuration)
                     overrideConfiguration.uiMode = uiMode
                 }
-            //}
+            }
             super.applyOverrideConfiguration(overrideConfiguration)
         }
 
@@ -260,13 +260,13 @@ class QuickBaseClass {
         }
 
         override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            //if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
                     overrideConfiguration.setTo(baseContext.resources.configuration)
                     overrideConfiguration.uiMode = uiMode
                 }
-            //}
+            }
             super.applyOverrideConfiguration(overrideConfiguration)
         }
 

@@ -57,6 +57,10 @@ class QuickInjectable @Inject constructor(var quickPref: QuickPref, val clickGua
         }
 
         fun applicationContext() : Context {
+            return instance!!.mApplication.baseContext
+        }
+
+        fun applicationContext2() : Context {
             return instance!!.mApplication
         }
 
