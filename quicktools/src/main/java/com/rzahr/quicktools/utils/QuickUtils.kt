@@ -21,6 +21,7 @@ import com.rzahr.quicktools.QuickLogWriter
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
@@ -88,15 +89,19 @@ object QuickUtils {
     /**
      * uses rx java to perform a background task
      */
-    fun backgroundUpdater(backgroundFunction: () -> Any?, ForegroundFunction: (it: Any?) -> Unit = {}, ErrorFunction: (it: Throwable) -> Unit? = {}, ErrorFunction2: () -> Any? = {}) {
+    fun backgroundUpdater(backgroundFunction: () -> Any?, ForegroundFunction: (it: Any?) -> Unit = {}, ErrorFunction: (it: Throwable) -> Unit? = {}, ErrorFunction2: () -> Any? = {}): Disposable {
 
-        Single.fromCallable { backgroundFunction() }
+        return Single.fromCallable { backgroundFunction() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterSuccess { ForegroundFunction(it) }
             .doOnError{ ErrorFunction(it) }
             .doOnError{ ErrorFunction2() }
-            .subscribe()
+            .subscribe({
+
+            }, {
+                ErrorFunction(it)
+            })
     }
 
     /**
