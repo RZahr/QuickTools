@@ -72,6 +72,7 @@ object QuickTrafficCalculator {
                 if (dateDeviceBoot != savedDateDeviceBoot) {
 
                     0L.addWithId(LAST_CURRENT_SAVED_UPLOAD_TRAFFIC_KEY)
+                    0L.addWithId(LAST_CURRENT_SAVED_DOWNLOAD_TRAFFIC_KEY)
                     // update the dateDeviceBoot in shared preference
                     dateDeviceBoot.addWithId(LAST_SAVED_TIME_BOOTED_KEY)
                 }
