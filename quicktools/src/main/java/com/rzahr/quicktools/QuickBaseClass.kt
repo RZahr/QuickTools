@@ -149,7 +149,8 @@ class QuickBaseClass {
 
         @Inject lateinit var mClickGuard: QuickClickGuard
 
-        override fun attachBaseContext(newBase: Context?) {
+
+        /*override fun attachBaseContext(newBase: Context?) {
             try {
                 super.attachBaseContext(
                     QuickContextWrapper.wrap(
@@ -160,8 +161,8 @@ class QuickBaseClass {
             }
             catch (e: Exception) { super.attachBaseContext(newBase)}
         }
-
-        override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+*/
+        /*override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
@@ -170,7 +171,7 @@ class QuickBaseClass {
                 }
             }
             super.applyOverrideConfiguration(overrideConfiguration)
-        }
+        }*/
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -259,7 +260,7 @@ class QuickBaseClass {
             onActivityInject()
         }
 
-        override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        /*override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
                 if (overrideConfiguration != null) {
                     val uiMode = overrideConfiguration.uiMode
@@ -268,7 +269,7 @@ class QuickBaseClass {
                 }
             }
             super.applyOverrideConfiguration(overrideConfiguration)
-        }
+        }*/
 
         override fun setPresenter(presenter: BasePresenter<*,*>) {
 
