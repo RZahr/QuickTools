@@ -3,7 +3,6 @@ package com.rzahr.quicktools
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +18,6 @@ import com.rzahr.quicktools.extensions.showToolbar
 import com.rzahr.quicktools.extensions.unLockOrientation
 import com.rzahr.quicktools.utils.QuickDBUtils
 import java.lang.ref.WeakReference
-import java.util.ArrayList
-import java.util.HashMap
 import javax.inject.Inject
 
 @Suppress("unused")
@@ -50,75 +47,6 @@ class QuickBaseClass {
         }
     }
 
-
-    /**
-     * @author Rashad Zahr
-     *
-     * new base model class helper for performing SQLITE queries
-     */
-    abstract class BaseModelN<D: QuickDatabase> @Inject constructor() {
-
-        @Inject lateinit var mDatabase: D
-
-        fun simpleSelect(columns: String, table: String, whereClause: String = "", groupByClause: String = "", orderByClause: String = ""): String {
-
-            return QuickDBUtils.simpleSelect(columns, table, whereClause, groupByClause, orderByClause)
-        }
-
-        fun distinctSelect(columns: String, table: String, whereClause: String = ""): String {
-
-            return QuickDBUtils.distinctSelect(columns, table, whereClause)
-        }
-
-        fun delete(table: String, where: String = ""): String {
-
-            return if (where.isNotEmpty()) "DELETE FROM $table WHERE $where"
-            else "DELETE FROM $table"
-        }
-
-        fun execSQL(query: String, beforeAction:() -> Unit = {}, afterAction:() -> Unit = {}, closedAction:() -> Unit = {}) {
-
-            beforeAction()
-
-            mDatabase.getDatabase()
-
-            if (mDatabase.myDataBase?.isOpen!!) mDatabase.myDataBase?.execSQL(query)
-
-            else closedAction()
-
-            afterAction()
-        }
-
-        fun singleSelect(query: String, increment: Boolean, delimiter: String, defaultReturn: String, args: Array<String> = emptyArray()): String {
-
-            return mDatabase.singleSelect(query, increment, delimiter, defaultReturn, args)
-        }
-
-        fun multiSelect(query: String): ArrayList<Array<String>> {
-
-            return mDatabase.multiSelect(query)
-        }
-
-        fun multiHashSelect(query: String): ArrayList<HashMap<String, String>> {
-
-            return mDatabase.multiSelect(query, "")
-        }
-
-        fun createSimpleSelect(columns: String, table: String, whereClause: String = "", groupByClause: String = "", orderByClause: String = ""): String {
-
-            return QuickDBUtils.simpleSelect(columns, table, whereClause, groupByClause, orderByClause)
-        }
-
-        fun multiSelect(query: String, onResult: (cursor: Cursor) -> Unit) {
-
-            mDatabase.multiSelect(query, onResult)
-        }
-
-        fun createDistinctSelect(columns: String, table: String, whereClause: String = ""): String {
-
-            return QuickDBUtils.distinctSelect(columns, table, whereClause)
-        }
-    }
 
     /**
      * @author Rashad Zahr
@@ -178,6 +106,7 @@ class QuickBaseClass {
             get() = weakReference != null && weakReference!!.get() != null
     }
 
+
     /**
      * @author Rashad Zahr
      *
@@ -204,38 +133,20 @@ class QuickBaseClass {
         fun getStateBundle(): Bundle?
     }
 
+
     /**
      * @author Rashad Zahr
      *
      * base activity
      */
-    abstract class AbstractActivity : AppCompatActivity(), BaseViewInterface {
+    abstract class BaseActivity<P : BasePresenterInterface<*>>: AppCompatActivity(), BaseViewInterface {
 
+        @Inject lateinit var mPresenter: P
         @Inject lateinit var mClickGuard: QuickClickGuard
 
+        private var presenter: BasePresenter<*,*>? = null
 
-        /*override fun attachBaseContext(newBase: Context?) {
-            try {
-                super.attachBaseContext(
-                    QuickContextWrapper.wrap(
-                        newBase,
-                        QuickInjectable.pref().get("Language")
-                    )
-                )
-            }
-            catch (e: Exception) { super.attachBaseContext(newBase)}
-        }
-*/
-        /*override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
-                if (overrideConfiguration != null) {
-                    val uiMode = overrideConfiguration.uiMode
-                    overrideConfiguration.setTo(baseContext.resources.configuration)
-                    overrideConfiguration.uiMode = uiMode
-                }
-            }
-            super.applyOverrideConfiguration(overrideConfiguration)
-        }*/
+        protected abstract fun onActivityInject()
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -243,8 +154,23 @@ class QuickBaseClass {
             onActivityInject()
         }
 
-        protected abstract fun onActivityInject()
+        override fun setPresenter(presenter: BasePresenter<*,*>) {
+
+            this.presenter = presenter
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+
+            presenter?.detachView()
+            presenter = null
+        }
     }
+
+
+
+
+
 
     /**
      * @author Rashad Zahr
@@ -277,6 +203,80 @@ class QuickBaseClass {
         }
     }
 
+
+    /**
+     * @author Rashad Zahr
+     *
+     * base MVP structure fragment
+     */
+    abstract class MVPFragment<P : BasePresenterInterface<*>>(private val layoutId: Int, private val lockOrientation: Boolean = false) : AbstractFragment() {
+
+        @Inject lateinit var mClickGuard: QuickClickGuard
+
+        @Inject lateinit var mPresenter: P
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+            return inflater.inflate(layoutId, container, false)
+        }
+
+        override fun onResume() {
+            super.onResume()
+
+            if (lockOrientation) {
+                // set orientation strictly to portrait and hide the toolbar
+                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                (activity as AppCompatActivity).supportActionBar!!.hide()
+            }
+        }
+
+        override fun onStop() {
+            super.onStop()
+
+            if (lockOrientation) {
+                activity?.showToolbar()
+                activity?.unLockOrientation()
+            }
+        }
+    }
+
+    /**
+     * @author Rashad Zahr
+     *
+     * base MVP structure fragment dialog
+     */
+    abstract class MVPFragmentDialog<P : BasePresenterInterface<*>>(private val layoutId: Int, private val lockOrientation: Boolean = false) : AbstractDialogFragment() {
+
+        @Inject lateinit var mClickGuard: QuickClickGuard
+        @Inject lateinit var mPresenter: P
+
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+            return inflater.inflate(layoutId, container, false)
+        }
+
+        override fun onResume() {
+            super.onResume()
+
+            if (lockOrientation) {
+                // set orientation strictly to portrait and hide the toolbar
+                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                (activity as AppCompatActivity).supportActionBar?.hide()
+            }
+        }
+
+        override fun onStop() {
+            super.onStop()
+
+            if (lockOrientation) {
+                activity?.showToolbar()
+                activity?.unLockOrientation()
+            }
+        }
+    }
+
+
+
+
     /**
      * @author Rashad Zahr
      *
@@ -307,46 +307,7 @@ class QuickBaseClass {
         }
     }
 
-    /**
-     * @author Rashad Zahr
-     *
-     * base activity
-     */
-    abstract class BaseActivity<P : BasePresenterInterface<*>>: AbstractActivity() {
 
-        @Inject lateinit var mPresenter: P
-
-        private var presenter: BasePresenter<*,*>? = null
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-
-            onActivityInject()
-        }
-
-        /*override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
-                if (overrideConfiguration != null) {
-                    val uiMode = overrideConfiguration.uiMode
-                    overrideConfiguration.setTo(baseContext.resources.configuration)
-                    overrideConfiguration.uiMode = uiMode
-                }
-            }
-            super.applyOverrideConfiguration(overrideConfiguration)
-        }*/
-
-        override fun setPresenter(presenter: BasePresenter<*,*>) {
-
-            this.presenter = presenter
-        }
-
-        override fun onDestroy() {
-            super.onDestroy()
-
-            presenter?.detachView()
-            presenter = null
-        }
-    }
 
     /**
      * @author Rashad Zahr
@@ -445,73 +406,5 @@ class QuickBaseClass {
         }
     }
 
-    /**
-     * @author Rashad Zahr
-     *
-     * base MVP structure fragment
-     */
-    abstract class MVPFragment<P : BasePresenterInterface<*>>(private val layoutId: Int, private val lockOrientation: Boolean = false) : AbstractFragment() {
 
-        @Inject lateinit var mClickGuard: QuickClickGuard
-
-        @Inject lateinit var mPresenter: P
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-            return inflater.inflate(layoutId, container, false)
-        }
-
-        override fun onResume() {
-            super.onResume()
-
-            if (lockOrientation) {
-                // set orientation strictly to portrait and hide the toolbar
-                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                (activity as AppCompatActivity).supportActionBar!!.hide()
-            }
-        }
-
-        override fun onStop() {
-            super.onStop()
-
-            if (lockOrientation) {
-                activity?.showToolbar()
-                activity?.unLockOrientation()
-            }
-        }
-    }
-
-    /**
-     * @author Rashad Zahr
-     *
-     * base MVP structure fragment dialog
-     */
-    abstract class MVPFragmentDialog<P : BasePresenterInterface<*>>(private val layoutId: Int, private val lockOrientation: Boolean = false) : AbstractDialogFragment() {
-
-        @Inject lateinit var mClickGuard: QuickClickGuard
-        @Inject lateinit var mPresenter: P
-
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-            return inflater.inflate(layoutId, container, false)
-        }
-
-        override fun onResume() {
-            super.onResume()
-
-            if (lockOrientation) {
-                // set orientation strictly to portrait and hide the toolbar
-                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                (activity as AppCompatActivity).supportActionBar?.hide()
-            }
-        }
-
-        override fun onStop() {
-            super.onStop()
-
-            if (lockOrientation) {
-                activity?.showToolbar()
-                activity?.unLockOrientation()
-            }
-        }
-    }
 }
