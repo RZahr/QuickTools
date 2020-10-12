@@ -107,16 +107,21 @@ object QuickUtils {
     /**
      * uses rx java to perform a background task
      */
-    class RZBackgroundUpdater<T> constructor (backgroundFunction: () -> T?, foregroundFunction: (it: T?) -> Unit, errorFunction: (it: Throwable) -> Unit?, subscribeOn: Scheduler = Schedulers.io(), observeOn: Scheduler = AndroidSchedulers.mainThread()) {
+    class BackgroundUpdaterN<T> constructor (backgroundFunction: () -> T?, foregroundFunction: (it: T?) -> Unit, errorFunction: (it: Throwable) -> Unit?, errorFunction2: () -> Any?, subscribeOn: Scheduler = Schedulers.io(), observeOn: Scheduler = AndroidSchedulers.mainThread()) {
 
-        init {
-            Single.fromCallable { backgroundFunction() }
-                .subscribeOn(subscribeOn)
-                .observeOn(observeOn)
-                .doAfterSuccess { foregroundFunction(it) }
-                .doOnError { errorFunction(it) }
-                .subscribe()
-        }
+        private val mDisposable: Disposable = Single.fromCallable { backgroundFunction() }
+             .subscribeOn(subscribeOn)
+             .observeOn(observeOn)
+             .doAfterSuccess { foregroundFunction(it) }
+             .doOnError { errorFunction(it) }
+             .doOnError{ errorFunction2() }
+             .subscribe({
+
+             }, {
+                 errorFunction(it)
+             })
+
+        fun getDisposable() = mDisposable
     }
 
     /**

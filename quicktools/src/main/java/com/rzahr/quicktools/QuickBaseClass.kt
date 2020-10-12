@@ -3,13 +3,11 @@ package com.rzahr.quicktools
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
-import android.os.Build
+import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -20,8 +18,9 @@ import com.rzahr.quicktools.extensions.lockOrientation
 import com.rzahr.quicktools.extensions.showToolbar
 import com.rzahr.quicktools.extensions.unLockOrientation
 import com.rzahr.quicktools.utils.QuickDBUtils
-import java.lang.Exception
 import java.lang.ref.WeakReference
+import java.util.ArrayList
+import java.util.HashMap
 import javax.inject.Inject
 
 @Suppress("unused")
@@ -51,6 +50,76 @@ class QuickBaseClass {
         }
     }
 
+
+    /**
+     * @author Rashad Zahr
+     *
+     * new base model class helper for performing SQLITE queries
+     */
+    abstract class BaseModelN<D: QuickDatabase> @Inject constructor() {
+
+        @Inject lateinit var mDatabase: D
+
+        fun simpleSelect(columns: String, table: String, whereClause: String = "", groupByClause: String = "", orderByClause: String = ""): String {
+
+            return QuickDBUtils.simpleSelect(columns, table, whereClause, groupByClause, orderByClause)
+        }
+
+        fun distinctSelect(columns: String, table: String, whereClause: String = ""): String {
+
+            return QuickDBUtils.distinctSelect(columns, table, whereClause)
+        }
+
+        fun delete(table: String, where: String = ""): String {
+
+            return if (where.isNotEmpty()) "DELETE FROM $table WHERE $where"
+            else "DELETE FROM $table"
+        }
+
+        fun execSQL(query: String, beforeAction:() -> Unit = {}, afterAction:() -> Unit = {}, closedAction:() -> Unit = {}) {
+
+            beforeAction()
+
+            mDatabase.getDatabase()
+
+            if (mDatabase.myDataBase?.isOpen!!) mDatabase.myDataBase?.execSQL(query)
+
+            else closedAction()
+
+            afterAction()
+        }
+
+        fun singleSelect(query: String, increment: Boolean, delimiter: String, defaultReturn: String, args: Array<String> = emptyArray()): String {
+
+            return mDatabase.singleSelect(query, increment, delimiter, defaultReturn, args)
+        }
+
+        fun multiSelect(query: String): ArrayList<Array<String>> {
+
+            return mDatabase.multiSelect(query)
+        }
+
+        fun multiHashSelect(query: String): ArrayList<HashMap<String, String>> {
+
+            return mDatabase.multiSelect(query, "")
+        }
+
+        fun createSimpleSelect(columns: String, table: String, whereClause: String = "", groupByClause: String = "", orderByClause: String = ""): String {
+
+            return QuickDBUtils.simpleSelect(columns, table, whereClause, groupByClause, orderByClause)
+        }
+
+        fun multiSelect(query: String, onResult: (cursor: Cursor) -> Unit) {
+
+            mDatabase.multiSelect(query, onResult)
+        }
+
+        fun createDistinctSelect(columns: String, table: String, whereClause: String = ""): String {
+
+            return QuickDBUtils.distinctSelect(columns, table, whereClause)
+        }
+    }
+
     /**
      * @author Rashad Zahr
      *
@@ -71,9 +140,7 @@ class QuickBaseClass {
         }
 
         override fun onPresenterDestroy() {
-            if (stateBundle != null && !stateBundle!!.isEmpty) {
-                stateBundle?.clear()
-            }
+            if (stateBundle != null && !stateBundle!!.isEmpty) stateBundle?.clear()
         }
 
         override fun detachLifecycle(lifecycle: Lifecycle) {
@@ -89,10 +156,7 @@ class QuickBaseClass {
 
         private var weakReference: WeakReference<V>? = null
 
-        fun getString(id: Int): String {
-
-            return id.get(mActivity)
-        }
+        fun getString(id: Int) =  id.get(mActivity)
 
         override fun attachView(view: V) {
             if (!isViewAttached) {
@@ -324,62 +388,6 @@ class QuickBaseClass {
      * base MVVM structure fragment
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    abstract class MVVMFragmentoLD<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
-
-        var mViewModel: VM? = null
-
-        @Inject lateinit var mClickGuard: QuickClickGuard
-
-        override fun setPresenter(presenter: BasePresenter<*,*>) {
-        }
-
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-            return inflater.inflate(layoutId, container, false)
-        }
-
-        fun <T : ViewModel> setGVViewModel(savedInstanceState: Bundle?, modelClass: Class<T>, triggerRestoreState: Boolean = true) {
-
-            @Suppress("UNCHECKED_CAST")
-            mViewModel = ViewModelProvider(this).get(modelClass) as VM
-
-            lifecycle.addObserver(mViewModel!!)
-
-            if (triggerRestoreState) (mViewModel)?.restoreState(savedInstanceState)
-        }
-
-        fun getViewModel(): BaseViewModel? {
-
-            return mViewModel
-        }
-
-        override fun onSaveInstanceState(outState: Bundle) {
-            super.onSaveInstanceState(outState)
-
-            mViewModel?.saveState(outState)
-        }
-
-        override fun onResume() {
-            super.onResume()
-
-            if (lockOrientation) {
-                // set orientation strictly to portrait and hide the toolbar
-                activity?.lockOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                if (hideToolbar) (activity as AppCompatActivity).supportActionBar!!.hide()
-            }
-        }
-
-        override fun onStop() {
-            super.onStop()
-
-            if (lockOrientation) {
-                if (hideToolbar) activity?.showToolbar()
-                activity?.unLockOrientation()
-            }
-        }
-    }
-
-    @Suppress("MemberVisibilityCanBePrivate")
     abstract class MVVMFragment<VM : BaseViewModel> constructor(private val layoutId: Int, private val lockOrientation: Boolean = false, private val hideToolbar: Boolean = true) : BottomSheetDialogFragment(), BaseViewInterface { //dialogfragment
 
         @Inject
@@ -399,7 +407,7 @@ class QuickBaseClass {
         fun <T : ViewModel> setGVViewModel(savedInstanceState: Bundle?, modelClass: Class<T>, triggerRestoreState: Boolean = true) {
 
             @Suppress("UNCHECKED_CAST")
-            mViewModel = ViewModelProviders.of(this, viewModelFactory).get(modelClass) as VM
+            mViewModel = ViewModelProvider(this, viewModelFactory).get(modelClass) as VM  //ViewModelProviders.of(this, viewModelFactory).get(modelClass) as VM
 
             lifecycle.addObserver(mViewModel!!)
 
