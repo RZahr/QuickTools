@@ -187,132 +187,131 @@ fun ArrayList<String>.removeDuplicates(): Set<String> {
     return set
 }
 
-// use extensions library instead
-//
-///**
-// * saves integer in shared preference
-// * @param id: the id pointing to this integer value
-// */
-//fun Int.addWithId(id: String) {
-//
-//    QuickInjectable.pref().setIntValue(id, this)
-//}
-//
-///**
-// * saves string in shared preference
-// * @param id: the id pointing to this string value
-// */
-//fun String.addWithId(id: String) {
-//
-//    QuickInjectable.pref().setString(id, this)
-//}
-//
-///**
-// * saves double in shared preference
-// * @param id: the id pointing to this double value
-// */
-//fun Double.addWithId(id: String) {
-//
-//    QuickInjectable.pref().setString(id, this.toString())
-//}
-//
-///**
-// * saves long in shared preference
-// * @param id: the id pointing to this long value
-// */
-//fun Long.addWithId(id: String) {
-//
-//    QuickInjectable.pref().setLong(id, this)
-//}
-//
-///**
-// * saves boolean in shared preference
-// * @param id: the id pointing to this boolean value
-// */
-//fun Boolean.addWithId(id: String) {
-//
-//    QuickInjectable.pref().setBoolean(id, this)
-//}
-//
-///**
-// * saves string in shared preference as default
-// * @param id: the id pointing to this string value
-// */
-//fun String.addAsDefaultWithId(id: String) {
-//
-//    QuickInjectable.pref().setStringDefault(id, this)
-//}
-//
-///**
-// * gets string from strings.xml
-// * @param context: the context used to get the string value. in case the value is not passed then the application context is provided
-// * @return a string value from the resources
-// */
-//fun Int.get(context: Context = QuickInjectable.applicationContext()): String {
-//
-//    return context.getString(this)
-//}
-//
-///**
-// * saves long in shared preference as default
-// * @param id: the id pointing to this string value
-// */
-//fun Long.addAsDefaultWithId(id: String) {
-//
-//    QuickInjectable.pref().setLongDefault(id, this)
-//}
-//
-//
-///**
-// * get shared Long value.
-// * @return the Long
-// */
-//fun String.getLongPrefValue(): Long {
-//    return QuickInjectable.pref().getLong(this)
-//}
-//
-///**
-// * get shared boolean value boolean.
-// * @return the boolean
-// */
-//fun String.getBoolPrefValue(): Boolean {
-//    return QuickInjectable.pref().getBoolean(this)
-//}
-//
-///**
-// * get shared String value String.
-// * @return the String
-// */
-//fun String.getStringPrefValue(): String {
-//    return QuickInjectable.pref().get(this)
-//}
-//
-///**
-// * get shared Int value Int.
-// * @return the Int
-// */
-//fun String.getIntPrefValue(): Int {
-//    return QuickInjectable.pref().getInt(this)
-//}
-//
-///**
-// * @return the preference value of the key passed
-// */
-//@Suppress("UNCHECKED_CAST")
-//inline fun <reified I>String.rzPrefVal(): I {
-//
-//    return when (I::class.java.simpleName.toLowerCase(Locale.ENGLISH)) {
-//
-//        "string" -> QuickInjectable.pref().get(this) as I
-//        "int" -> QuickInjectable.pref().getInt(this) as I
-//        "integer" -> QuickInjectable.pref().getInt(this) as I
-//        "boolean" -> QuickInjectable.pref().getBoolean(this) as I
-//        "bool" -> QuickInjectable.pref().getBoolean(this) as I
-//        "long" -> QuickInjectable.pref().getLong(this) as I
-//        else -> QuickInjectable.pref().get(this) as I
-//    }
-//}
-//
+
+/**
+ * saves integer in shared preference
+ * @param id: the id pointing to this integer value
+ */
+fun Int.addWithId(id: String) {
+
+    QuickInjectable.pref().setIntValue(id, this)
+}
+
+/**
+ * saves string in shared preference
+ * @param id: the id pointing to this string value
+ */
+fun String.addWithId(id: String) {
+
+    QuickInjectable.pref().setString(id, this)
+}
+
+/**
+ * saves double in shared preference
+ * @param id: the id pointing to this double value
+ */
+fun Double.addWithId(id: String) {
+
+    QuickInjectable.pref().setString(id, this.toString())
+}
+
+/**
+ * saves long in shared preference
+ * @param id: the id pointing to this long value
+ */
+fun Long.addWithId(id: String) {
+
+    QuickInjectable.pref().setLong(id, this)
+}
+
+/**
+ * saves boolean in shared preference
+ * @param id: the id pointing to this boolean value
+ */
+fun Boolean.addWithId(id: String) {
+
+    QuickInjectable.pref().setBoolean(id, this)
+}
+
+/**
+ * saves string in shared preference as default
+ * @param id: the id pointing to this string value
+ */
+fun String.addAsDefaultWithId(id: String) {
+
+    QuickInjectable.pref().setStringDefault(id, this)
+}
+
+/**
+ * gets string from strings.xml
+ * @param context: the context used to get the string value. in case the value is not passed then the application context is provided
+ * @return a string value from the resources
+ */
+fun Int.get(context: Context = QuickInjectable.applicationContext()): String {
+
+    return context.getString(this)
+}
+
+/**
+ * saves long in shared preference as default
+ * @param id: the id pointing to this string value
+ */
+fun Long.addAsDefaultWithId(id: String) {
+
+    QuickInjectable.pref().setLongDefault(id, this)
+}
+
+
+/**
+ * get shared Long value.
+ * @return the Long
+ */
+fun String.getLongPrefValue(): Long {
+    return QuickInjectable.pref().getLong(this)
+}
+
+/**
+ * get shared boolean value boolean.
+ * @return the boolean
+ */
+fun String.getBoolPrefValue(): Boolean {
+    return QuickInjectable.pref().getBoolean(this)
+}
+
+/**
+ * get shared String value String.
+ * @return the String
+ */
+fun String.getStringPrefValue(): String {
+    return QuickInjectable.pref().get(this)
+}
+
+/**
+ * get shared Int value Int.
+ * @return the Int
+ */
+fun String.getIntPrefValue(): Int {
+    return QuickInjectable.pref().getInt(this)
+}
+
+/**
+ * @return the preference value of the key passed
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified I>String.rzPrefVal(): I {
+
+    return when (I::class.java.simpleName.toLowerCase(Locale.ENGLISH)) {
+
+        "string" -> QuickInjectable.pref().get(this) as I
+        "int" -> QuickInjectable.pref().getInt(this) as I
+        "integer" -> QuickInjectable.pref().getInt(this) as I
+        "boolean" -> QuickInjectable.pref().getBoolean(this) as I
+        "bool" -> QuickInjectable.pref().getBoolean(this) as I
+        "long" -> QuickInjectable.pref().getLong(this) as I
+        else -> QuickInjectable.pref().get(this) as I
+    }
+}
+
 
 
 
